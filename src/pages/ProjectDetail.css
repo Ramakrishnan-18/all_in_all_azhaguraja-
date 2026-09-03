@@ -1,0 +1,97 @@
+@reference "../index.css";
+
+.pd-not-found-wrapper {
+  @apply py-32 text-center;
+}
+
+.pd-not-found-title {
+  @apply font-display text-3xl mb-4;
+}
+
+.pd-not-found-link {
+  @apply eyebrow text-studio-blue;
+}
+
+.pd-hero-section {
+  @apply relative h-[70vh] min-h-[420px] bg-ink overflow-hidden;
+}
+
+.pd-hero-img {
+  @apply w-full h-full object-cover opacity-60;
+}
+
+.pd-hero-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/60;
+}
+
+.pd-hero-content-wrapper {
+  @apply absolute inset-0 flex flex-col justify-end px-6 lg:px-10 pb-14;
+}
+
+.pd-hero-container {
+  @apply max-w-[1400px] mx-auto w-full;
+}
+
+.pd-back-link {
+  @apply inline-flex items-center gap-2 text-paper/70 hover:text-signal-gold eyebrow mb-6;
+}
+
+.pd-hero-eyebrow {
+  @apply eyebrow text-signal-gold mb-4;
+}
+
+.pd-hero-title {
+  @apply font-display text-4xl md:text-6xl text-paper max-w-3xl leading-[1.05];
+}
+
+.pd-details-section {
+  @apply px-6 lg:px-10 py-14 max-w-[1400px] mx-auto;
+}
+
+.pd-meta-grid {
+  @apply grid grid-cols-1 md:grid-cols-4 gap-8 border-b border-slate/10 pb-10 mb-14;
+}
+
+.pd-meta-item {
+  @apply flex items-start gap-3;
+}
+
+.pd-meta-icon {
+  @apply text-studio-blue mt-1;
+}
+
+.pd-meta-eyebrow {
+  @apply eyebrow text-slate-soft;
+}
+
+.pd-meta-value {
+  @apply mt-1;
+}
+
+.pd-about-desc {
+  @apply text-sm text-slate-soft leading-relaxed;
+}
+
+.pd-section-title {
+  @apply eyebrow text-studio-blue mb-6;
+}
+
+.pd-videos-container {
+  @apply mb-16;
+}
+
+.pd-videos-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+}
+
+.pd-gallery-columns {
+  @apply columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance];
+}
+
+.pd-gallery-btn {
+  @apply block w-full mb-4 break-inside-avoid overflow-hidden cursor-pointer;
+}
+
+.pd-gallery-img {
+  @apply w-full object-cover transition-transform duration-500;
+}

@@ -1,0 +1,13 @@
+@reference "../index.css";
+
+.loader-container {
+  @apply flex flex-col items-center justify-center py-24 gap-4;
+}
+
+.loader-spinner {
+  @apply w-10 h-10 border-2 border-studio-blue/30 border-t-signal-gold rounded-full animate-spin;
+}
+
+.loader-label {
+  @apply eyebrow text-slate-soft;
+}

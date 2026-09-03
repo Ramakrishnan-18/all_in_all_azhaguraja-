@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+.nf-wrapper {
+  @apply min-h-[70vh] flex flex-col items-center justify-center px-6 text-center;
+}
+
+.nf-eyebrow {
+  @apply eyebrow text-studio-blue mb-4;
+}
+
+.nf-title {
+  @apply font-display text-4xl md:text-5xl mb-6;
+}
+
+.nf-btn {
+  @apply eyebrow bg-studio-blue text-paper px-7 py-4 cursor-pointer;
+}

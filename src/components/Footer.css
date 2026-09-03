@@ -1,0 +1,65 @@
+@reference "../index.css";
+
+.footer-wrapper {
+  @apply bg-ink text-paper/80 pt-20 pb-10 px-6 lg:px-10;
+}
+
+.footer-container {
+  @apply max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-white/10 pb-14;
+}
+
+.footer-brand-section {
+  @apply md:col-span-2;
+}
+
+.footer-logo-link {
+  @apply flex items-center gap-2 text-paper mb-5;
+}
+
+.footer-logo-box {
+  @apply w-9 h-9 border border-signal-gold flex items-center justify-center;
+}
+
+.footer-logo-icon {
+  @apply text-signal-gold;
+}
+
+.footer-logo-text {
+  @apply font-display text-xl;
+}
+
+.footer-brand-desc {
+  @apply max-w-sm text-sm leading-relaxed;
+}
+
+.footer-section-title {
+  @apply eyebrow text-signal-gold mb-4;
+}
+
+.footer-links-list {
+  @apply flex flex-col gap-3 text-sm;
+}
+
+.footer-link {
+  @apply hover:text-signal-gold;
+}
+
+.footer-contact-item {
+  @apply flex items-center gap-2;
+}
+
+.footer-socials {
+  @apply flex items-center gap-4 pt-2;
+}
+
+.footer-social-link {
+  @apply hover:text-signal-gold;
+}
+
+.footer-bottom {
+  @apply max-w-[1400px] mx-auto pt-8 flex flex-col md:flex-row justify-between gap-2 text-xs text-paper/50;
+}
+
+.footer-tagline {
+  @apply font-mono;
+}

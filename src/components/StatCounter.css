@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+.stat-wrapper {
+  @apply border-l border-signal-gold/40 pl-5;
+}
+
+.stat-value {
+  @apply font-display text-4xl md:text-5xl text-paper;
+}
+
+.stat-suffix {
+  @apply text-signal-gold;
+}
+
+.stat-label {
+  @apply eyebrow text-paper/50 mt-2;
+}

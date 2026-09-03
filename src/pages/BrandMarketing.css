@@ -1,0 +1,57 @@
+@reference "../index.css";
+
+.brand-section {
+  @apply px-6 lg:px-10 py-16 max-w-[1400px] mx-auto;
+}
+
+.brand-filter-wrapper {
+  @apply mb-10;
+}
+
+.brand-empty-msg {
+  @apply text-slate-soft py-16 text-center;
+}
+
+.brand-list {
+  @apply flex flex-col gap-6;
+}
+
+.brand-item-link {
+  @apply grid grid-cols-1 md:grid-cols-5 gap-0 bg-ink overflow-hidden;
+}
+
+.brand-item-img-wrapper {
+  @apply md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden;
+}
+
+.brand-item-img {
+  @apply w-full h-full object-cover transition-transform duration-700;
+}
+
+.brand-item-details {
+  @apply md:col-span-3 p-8 md:p-10 flex flex-col justify-center;
+}
+
+.brand-item-subcategory {
+  @apply eyebrow text-signal-gold mb-3;
+}
+
+.brand-item-title {
+  @apply font-display text-2xl md:text-3xl text-paper mb-3;
+}
+
+.brand-item-desc {
+  @apply text-paper/60 text-sm leading-relaxed max-w-lg mb-4;
+}
+
+.brand-item-services-list {
+  @apply flex flex-wrap gap-2 mb-4;
+}
+
+.brand-item-service-tag {
+  @apply font-mono text-[10px] border border-paper/20 text-paper/60 px-2 py-1;
+}
+
+.brand-item-meta {
+  @apply font-mono text-xs text-paper/40;
+}

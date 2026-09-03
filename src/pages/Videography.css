@@ -1,0 +1,21 @@
+@reference "../index.css";
+
+.video-page-section {
+  @apply px-6 lg:px-10 py-16 max-w-[1400px] mx-auto;
+}
+
+.video-page-filter-wrapper {
+  @apply mb-10;
+}
+
+.video-page-empty-msg {
+  @apply text-slate-soft py-16 text-center;
+}
+
+.video-page-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-8;
+}
+
+.video-page-project-link {
+  @apply block mt-3 text-sm text-slate-soft hover:text-studio-blue;
+}

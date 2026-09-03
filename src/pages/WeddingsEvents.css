@@ -1,0 +1,53 @@
+@reference "../index.css";
+
+.we-section {
+  @apply px-6 lg:px-10 py-16 max-w-[1400px] mx-auto;
+}
+
+.we-header {
+  @apply flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10 border-b border-slate/10 pb-6;
+}
+
+.we-toggle-container {
+  @apply flex gap-1 p-1 border border-slate/20 self-start md:self-auto bg-paper;
+}
+
+.we-toggle-btn {
+  @apply eyebrow px-4 py-2 text-[10px] cursor-pointer transition-colors;
+}
+
+.we-toggle-btn-active {
+  @apply bg-studio-blue text-paper;
+}
+
+.we-toggle-btn-inactive {
+  @apply text-slate/60 hover:text-slate;
+}
+
+.we-stories-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+.we-empty-msg {
+  @apply text-slate-soft py-16 text-center;
+}
+
+.we-photos-columns {
+  @apply columns-2 sm:columns-3 lg:columns-4 gap-4 [column-fill:_balance];
+}
+
+.we-photo-btn {
+  @apply relative block w-full mb-4 break-inside-avoid overflow-hidden cursor-pointer;
+}
+
+.we-photo-img {
+  @apply w-full object-cover transition-transform duration-500;
+}
+
+.we-photo-overlay {
+  @apply absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-ink/80 to-transparent opacity-0 transition-opacity;
+}
+
+.we-photo-eyebrow {
+  @apply eyebrow text-paper text-[10px];
+}

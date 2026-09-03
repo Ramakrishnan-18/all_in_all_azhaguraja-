@@ -1,0 +1,21 @@
+@reference "../index.css";
+
+.header-wrapper {
+  @apply bg-ink pt-40 pb-20 px-6 lg:px-10;
+}
+
+.header-container {
+  @apply max-w-[1400px] mx-auto;
+}
+
+.header-eyebrow {
+  @apply eyebrow text-signal-gold mb-5;
+}
+
+.header-title {
+  @apply font-display text-4xl md:text-6xl text-paper max-w-3xl leading-[1.05];
+}
+
+.header-desc {
+  @apply text-paper/60 max-w-xl mt-6 leading-relaxed;
+}

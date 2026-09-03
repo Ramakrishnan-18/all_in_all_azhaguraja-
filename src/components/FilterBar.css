@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+.filter-container {
+  @apply flex flex-wrap gap-3;
+}
+
+.filter-btn {
+  @apply eyebrow px-5 py-2.5 border transition-colors duration-300 cursor-pointer;
+}
+
+.filter-btn-active {
+  @apply bg-studio-blue text-paper border-studio-blue;
+}
+
+.filter-btn-inactive {
+  @apply border-slate/20 text-slate hover:border-studio-blue;
+}

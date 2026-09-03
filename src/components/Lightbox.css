@@ -1,0 +1,25 @@
+@reference "../index.css";
+
+.lightbox-wrapper {
+  @apply fixed inset-0 z-[100] bg-ink/97 flex items-center justify-center px-4;
+}
+
+.lightbox-close-btn {
+  @apply absolute top-6 right-6 text-paper hover:text-signal-gold cursor-pointer;
+}
+
+.lightbox-prev-btn {
+  @apply absolute left-3 md:left-8 text-paper hover:text-signal-gold cursor-pointer;
+}
+
+.lightbox-img {
+  @apply max-h-[86vh] max-w-[88vw] object-contain;
+}
+
+.lightbox-next-btn {
+  @apply absolute right-3 md:right-8 text-paper hover:text-signal-gold cursor-pointer;
+}
+
+.lightbox-counter {
+  @apply absolute bottom-6 font-mono text-xs text-paper/50;
+}
