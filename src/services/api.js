@@ -1,10 +1,9 @@
 import axios from "axios";
 
-// Single axios instance the whole app shares.
-// Point VITE_API_URL at your real backend in .env — nothing else needs to change.
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 15000,
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {

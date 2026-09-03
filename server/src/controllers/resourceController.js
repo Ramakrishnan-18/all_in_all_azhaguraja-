@@ -26,7 +26,8 @@ export function createResourceController(
       const { search } = req.query;
       let query = {};
       if (search && searchable.length > 0) {
-        const regex = new RegExp(search, "i");
+        const safeSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(safeSearch, "i");
         query.$or = searchable.map((f) => ({ [f]: regex }));
       }
       const docs = await model.find(query).sort({ createdAt: -1 }).lean();

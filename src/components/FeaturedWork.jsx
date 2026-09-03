@@ -4,83 +4,7 @@ import { motion } from "framer-motion";
 import { getPhotos } from "../services/photosService";
 import Loader from "./Loader";
 import Lightbox from "./Lightbox";
-import { ArrowRight, MapPin, ZoomIn, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-
-// Fallback gallery photos when no projects in localStorage
-const fallbackPhotos = [
-  {
-    id: "fg1",
-    title: "Golden Hour Portrait",
-    category: "Personal Reels",
-    url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=800&auto=format&fit=crop",
-    location: "Palayamkottai, Tirunelveli",
-  },
-  {
-    id: "fg2",
-    title: "Yamaha R15 V4 — Delivery Day",
-    category: "Car/Bike Delivery",
-    url: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800&auto=format&fit=crop",
-    location: "Vannarpettai, Tirunelveli",
-  },
-  {
-    id: "fg3",
-    title: "The Heritage Wedding",
-    category: "Events",
-    url: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
-    location: "Kanyakumari Road, Tirunelveli",
-  },
-  {
-    id: "fg4",
-    title: "Nellai Cafe — Sensory Brand Pour",
-    category: "Business/Marketing",
-    url: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=800&auto=format&fit=crop",
-    location: "Tirunelveli Town",
-  },
-  {
-    id: "fg5",
-    title: "Street Style — Urban Fashion",
-    category: "Personal Reels",
-    url: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop",
-    location: "Town, Tirunelveli",
-  },
-  {
-    id: "fg6",
-    title: "Royal Enfield Classic — First Ride",
-    category: "Car/Bike Delivery",
-    url: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800&auto=format&fit=crop",
-    location: "High Ground, Tirunelveli",
-  },
-  {
-    id: "fg7",
-    title: "Bride Candid Moments",
-    category: "Events",
-    url: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
-    location: "Nellai Sangeet Hall",
-  },
-  {
-    id: "fg8",
-    title: "Trend Apparel Town Collection",
-    category: "Business/Marketing",
-    url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
-    location: "Palayamkottai",
-  },
-  {
-    id: "fg9",
-    title: "Vintage Cinema Portrait",
-    category: "Personal Reels",
-    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop",
-    coverImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop",
-    location: "Tirunelveli Junction",
-  }
-];
+import { ArrowRight, MapPin, ZoomIn, ChevronLeft, ChevronRight, Sparkles, Camera } from "lucide-react";
 
 export default function FeaturedWork() {
   const [photos, setPhotos] = useState(null);
@@ -90,17 +14,14 @@ export default function FeaturedWork() {
   useEffect(() => {
     getPhotos()
       .then((data) => {
-        const base = data && data.length > 0 ? data : [];
-        const merged = [...base, ...fallbackPhotos.filter((f) => !base.find((b) => b.url === f.url))];
-        // Newest first: newest captures always appear at the top of the home gallery.
-        merged.sort((a, b) => {
+        const sorted = [...(data || [])].sort((a, b) => {
           const ta = new Date(a.createdAt || a.date || 0).getTime();
           const tb = new Date(b.createdAt || b.date || 0).getTime();
           return tb - ta;
         });
-        setPhotos(merged);
+        setPhotos(sorted);
       })
-      .catch(() => setPhotos(fallbackPhotos));
+      .catch(() => setPhotos([]));
   }, []);
 
   const scroll = (direction) => {
@@ -128,7 +49,6 @@ export default function FeaturedWork() {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Scroll navigation arrows */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => scroll("left")}
@@ -155,72 +75,71 @@ export default function FeaturedWork() {
           </div>
         </div>
 
-        {/* Swipeable Photo Row (Horizontal Scroll + Snap) */}
-        <div
-          ref={carouselRef}
-          className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 -mx-6 px-6 lg:-mx-10 lg:px-10"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {photos.map((photo, index) => (
-            <motion.div
-              key={photo.id || index}
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.35, delay: (index % 5) * 0.05 }}
-              onClick={() => setLightboxIndex(index)}
-              className="relative aspect-[4/3] w-[80vw] sm:w-[320px] md:w-[380px] shrink-0 snap-start bg-slate group cursor-pointer overflow-hidden border border-slate/10 shadow-sm hover:shadow-xl transition-all duration-300"
-            >
-              <img
-                src={photo.coverImage || photo.url}
-                alt={photo.title}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
-              />
-
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-              {/* Category tag */}
-              <div className="absolute top-3 left-3 z-10">
-                <span className="eyebrow bg-ink/90 backdrop-blur-sm text-signal-gold text-[8px] font-bold tracking-widest px-2.5 py-1 uppercase shadow-sm">
-                  {photo.category}
-                </span>
-              </div>
-
-              {/* Hover title & info */}
-              <div className="absolute inset-x-0 bottom-0 p-4 z-10 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                <h3 className="font-display text-base font-bold text-white leading-snug line-clamp-1 drop-shadow-md">
-                  {photo.title}
-                </h3>
-                {photo.location && (
-                  <p className="text-[10px] text-paper/80 font-mono mt-1 flex items-center gap-1">
-                    <MapPin size={10} className="text-signal-gold" /> {photo.location}
-                  </p>
-                )}
-              </div>
-
-              {/* Center zoom icon */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 shadow-lg">
-                  <ZoomIn size={18} className="text-white" />
+        {photos.length === 0 ? (
+          <div className="text-center py-20 border border-dashed border-slate/15 bg-white">
+            <Camera size={40} className="mx-auto mb-4 text-slate/30" />
+            <p className="text-slate-soft">No photos uploaded yet.</p>
+            <Link to="/admin/photos" className="text-xs text-studio-blue mt-2 inline-block hover:underline">Upload photos from admin</Link>
+          </div>
+        ) : (
+          <div
+            ref={carouselRef}
+            className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 -mx-6 px-6 lg:-mx-10 lg:px-10"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {photos.map((photo, index) => (
+              <motion.div
+                key={photo.id || index}
+                initial={{ opacity: 0, scale: 0.96 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.35, delay: (index % 5) * 0.05 }}
+                onClick={() => setLightboxIndex(index)}
+                className="relative aspect-[4/3] w-[80vw] sm:w-[320px] md:w-[380px] shrink-0 snap-start bg-slate group cursor-pointer overflow-hidden border border-slate/10 shadow-sm hover:shadow-xl transition-all duration-300"
+              >
+                <img
+                  src={photo.coverImage || photo.url}
+                  alt={photo.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="eyebrow bg-ink/90 backdrop-blur-sm text-signal-gold text-[8px] font-bold tracking-widest px-2.5 py-1 uppercase shadow-sm">
+                    {photo.category}
+                  </span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                <div className="absolute inset-x-0 bottom-0 p-4 z-10 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <h3 className="font-display text-base font-bold text-white leading-snug line-clamp-1 drop-shadow-md">
+                    {photo.title}
+                  </h3>
+                  {photo.location && (
+                    <p className="text-[10px] text-paper/80 font-mono mt-1 flex items-center gap-1">
+                      <MapPin size={10} className="text-signal-gold" /> {photo.location}
+                    </p>
+                  )}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 shadow-lg">
+                    <ZoomIn size={18} className="text-white" />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
-        {/* Swipe hint for mobile */}
-        <div className="flex items-center justify-between mt-4 text-slate-soft text-xs">
-          <p className="flex items-center gap-1.5 text-[11px] font-mono">
-            <span className="inline-block w-2 h-2 rounded-full bg-signal-gold animate-pulse" />
-            <span>Swipe or click arrows to view all {photos.length} photos</span>
-          </p>
-          <span className="text-[10px] font-mono opacity-70">Click photo to zoom</span>
-        </div>
+        {photos.length > 0 && (
+          <div className="flex items-center justify-between mt-4 text-slate-soft text-xs">
+            <p className="flex items-center gap-1.5 text-[11px] font-mono">
+              <span className="inline-block w-2 h-2 rounded-full bg-signal-gold animate-pulse" />
+              <span>Swipe or click arrows to view all {photos.length} photos</span>
+            </p>
+            <span className="text-[10px] font-mono opacity-70">Click photo to zoom</span>
+          </div>
+        )}
       </div>
 
-      {/* Lightbox Modal */}
       {lightboxIndex !== null && (
         <Lightbox
           images={photos}
@@ -232,4 +151,3 @@ export default function FeaturedWork() {
     </section>
   );
 }
-

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, Camera } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getSettings } from "../services/settingsService";
@@ -8,6 +8,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [settings, setSettings] = useState({ brandName: "ALL IN ALL AZHAGURAJA", tagline: "Create Moments, Build Brands" });
+  const lastTapRef = useRef(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getSettings().then(setSettings).catch(() => {});
@@ -26,6 +28,15 @@ export default function Navbar() {
     { to: "/about", label: "About" },
   ];
 
+  const handleLogoTap = (e) => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      e.preventDefault();
+      navigate("/admin/login");
+    }
+    lastTapRef.current = now;
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -34,7 +45,7 @@ export default function Navbar() {
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
         <Link to="/" className="flex items-center gap-2.5 text-paper group" onClick={() => setOpen(false)}>
-          <span className="w-9 h-9 border border-signal-gold flex items-center justify-center bg-ink">
+          <span className="w-9 h-9 border border-signal-gold flex items-center justify-center bg-ink" onClick={handleLogoTap}>
             <Camera size={16} className="text-signal-gold group-hover:rotate-12 transition-transform" />
           </span>
           <div className="flex flex-col">

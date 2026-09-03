@@ -1,18 +1,24 @@
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { protect, requireRole } from "../middlewares/auth.js";
 import * as auth from "../controllers/authController.js";
 
 const router = Router();
 
-router.post("/login", asyncHandler(auth.login));
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { message: "Too many login attempts. Please try again after 15 minutes." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-// Only the /me and /admins routes under this router require authentication.
-// Scoped with explicit paths so this router does not intercept unrelated
-// /api/* routes that are mounted separately (e.g. public /reels, /photos).
+router.post("/login", loginLimiter, asyncHandler(auth.login));
+router.post("/logout", asyncHandler(auth.logout));
+
 router.get("/me", protect, asyncHandler(auth.me));
 
-// Admin account management — Admin creates/manages Manager & Staff.
 router.get("/admins", protect, requireRole("Admin", "Manager"), asyncHandler(auth.listAdmins));
 router.post("/admins", protect, requireRole("Admin"), asyncHandler(auth.createAdmin));
 router.patch("/admins/:id", protect, requireRole("Admin"), asyncHandler(auth.updateAdmin));

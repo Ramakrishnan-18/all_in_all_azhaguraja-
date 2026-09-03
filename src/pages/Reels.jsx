@@ -4,7 +4,7 @@ import PageHeader from "../components/PageHeader";
 import { getReels } from "../services/reelsService";
 import Loader from "../components/Loader";
 import WhatsAppButton from "../components/WhatsAppButton";
-import { Play, Pause, Volume2, VolumeX, ChevronUp, ChevronDown, X, MapPin, User, Sparkles } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, ChevronUp, ChevronDown, X, MapPin, User, Sparkles, Film } from "lucide-react";
 import useSEO from "../hooks/useSEO";
 
 const categories = [
@@ -13,64 +13,6 @@ const categories = [
   { value: "Car/Bike Delivery", label: "Car & Bike Handover" },
   { value: "Business/Marketing", label: "Marketing Promos" },
   { value: "Events", label: "Events & Weddings" },
-];
-
-// Fallback vertical reels if no projects exist in localStorage
-const fallbackReels = [
-  {
-    id: "fr1",
-    title: "Yamaha R15 V4 — Delivery Day Thrill",
-    category: "Car/Bike Delivery",
-    client: "Sudhakar S.",
-    location: "Vannarpettai, Tirunelveli",
-    poster: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr2",
-    title: "Nellai Cafe — Sensory Filter Coffee Reel",
-    category: "Business/Marketing",
-    client: "Nellai Cafe",
-    location: "Tirunelveli Town",
-    poster: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr3",
-    title: "Street Style — Urban Flow & Transitions",
-    category: "Personal Reels",
-    client: "Kavitha M.",
-    location: "Town, Tirunelveli",
-    poster: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr4",
-    title: "The Heritage Wedding of S & A — Teaser",
-    category: "Events",
-    client: "Suresh & Ananya",
-    location: "Kanyakumari Road, Tirunelveli",
-    poster: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr5",
-    title: "Royal Enfield Classic 350 — Stealth Delivery",
-    category: "Car/Bike Delivery",
-    client: "Dinesh Kumar",
-    location: "High Ground, Tirunelveli",
-    poster: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr6",
-    title: "Trend Apparel — Festive Collection Launch",
-    category: "Business/Marketing",
-    client: "Trend Apparel",
-    location: "Palayamkottai",
-    poster: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  }
 ];
 
 export default function Reels() {
@@ -93,8 +35,7 @@ export default function Reels() {
   useEffect(() => {
     getReels()
       .then((data) => {
-        if (!data || data.length === 0) { setReels(fallbackReels); return; }
-        const withPosters = data.map((r) => {
+        const withPosters = (data || []).map((r) => {
           if (!r.poster && r.videoUrl) {
             const ytMatch = r.videoUrl.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([a-zA-Z0-9_-]{11})/);
             if (ytMatch) return { ...r, poster: `https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg` };
@@ -103,7 +44,7 @@ export default function Reels() {
         });
         setReels(withPosters);
       })
-      .catch(() => setReels(fallbackReels));
+      .catch(() => setReels([]));
   }, []);
 
   const filteredReels = reels
@@ -227,7 +168,8 @@ export default function Reels() {
 
           {filteredReels.length === 0 ? (
             <div className="text-center py-20 border border-dashed border-slate/15 bg-white">
-              <p className="text-slate-soft">No reels videos found in this category.</p>
+              <Film size={40} className="mx-auto mb-4 text-slate/30" />
+              <p className="text-slate-soft">No reels uploaded yet.</p>
             </div>
           ) : (
             /* 9:16 Vertical Reels Grid */
@@ -249,6 +191,13 @@ export default function Reels() {
                         src={project.poster}
                         alt={project.title}
                         loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : project.videoFile ? (
+                      <video
+                        src={project.videoFile}
+                        muted
+                        preload="metadata"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (

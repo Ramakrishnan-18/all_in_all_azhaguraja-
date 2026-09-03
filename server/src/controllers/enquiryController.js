@@ -31,7 +31,8 @@ export async function listEnquiries(req, res) {
   const query = {};
   if (status && status !== "all") query.status = status;
   if (search) {
-    const regex = new RegExp(search, "i");
+    const safeSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(safeSearch, "i");
     query.$or = [
       { name: regex },
       { phone: regex },

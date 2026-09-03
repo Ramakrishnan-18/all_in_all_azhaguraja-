@@ -14,8 +14,8 @@ export function AuthProvider({ children }) {
     return data;
   }, []);
 
-  const logout = useCallback(() => {
-    authService.logout();
+  const logout = useCallback(async () => {
+    await authService.logout();
     setIsAuthed(false);
     setAdminName("");
   }, []);

@@ -35,64 +35,6 @@ import { getSettings } from "../services/settingsService";
 import useSEO from "../hooks/useSEO";
 import { InstagramIcon, YoutubeIcon } from "../components/SocialIcons";
 
-// Fallback vertical reels for home page showcase
-const fallbackReels = [
-  {
-    id: "fr1",
-    title: "Yamaha R15 V4 — Delivery Day Thrill",
-    category: "Car/Bike Delivery",
-    client: "Sudhakar S.",
-    location: "Vannarpettai, Tirunelveli",
-    coverImage: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr2",
-    title: "Nellai Cafe — Sensory Filter Coffee Reel",
-    category: "Business/Marketing",
-    client: "Nellai Cafe",
-    location: "Tirunelveli Town",
-    coverImage: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr3",
-    title: "Street Style — Urban Flow & Transitions",
-    category: "Personal Reels",
-    client: "Kavitha M.",
-    location: "Town, Tirunelveli",
-    coverImage: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr4",
-    title: "The Heritage Wedding of S & A — Teaser",
-    category: "Events",
-    client: "Suresh & Ananya",
-    location: "Kanyakumari Road, Tirunelveli",
-    coverImage: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr5",
-    title: "Royal Enfield Classic 350 — Stealth Delivery",
-    category: "Car/Bike Delivery",
-    client: "Dinesh Kumar",
-    location: "High Ground, Tirunelveli",
-    coverImage: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id: "fr6",
-    title: "Trend Apparel — Festive Collection Launch",
-    category: "Business/Marketing",
-    client: "Trend Apparel",
-    location: "Palayamkottai",
-    coverImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
-    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  }
-];
-
 export default function Home() {
   useSEO({
     title: "All in All Azhaguraja | Tirunelveli's Premium Photographer & Reels Creator",
@@ -103,7 +45,7 @@ export default function Home() {
   const [services, setServices] = useState([]);
   const [packages, setPackages] = useState([]);
   const [brandCollaborations, setBrandCollaborations] = useState([]);
-  const [reels, setReels] = useState(fallbackReels);
+  const [reels, setReels] = useState([]);
   const [activeReelIndex, setActiveReelIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -119,50 +61,6 @@ export default function Home() {
     contactPhone: "+91 94884 12345"
   });
 
-  // Fallback data for Brand Marketing collaborations showcase
-  const defaultBrandCollaborations = [
-    {
-      id: "bc1",
-      brandName: "Yamaha Motors Nellai",
-      tagline: "High-Energy Delivery Reels",
-      description: "Shot custom launch & handover reels for the new R15 V4. Paced transitions and roaring exhaust sound design increased Instagram video engagement by 180% and drove direct showroom enquiries.",
-      image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=600&auto=format&fit=crop",
-      videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-    },
-    {
-      id: "bc2",
-      brandName: "Nellai Filter Cafe",
-      tagline: "Sensory Macro Commercial",
-      description: "A conversion-driven vertical promo capturing steam, coffee drops, and authentic snack styling. Tailored hooks stopped user scrolls, converting digital views into local cafe foot traffic.",
-      image: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=600&auto=format&fit=crop",
-      videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-    },
-    {
-      id: "bc3",
-      brandName: "Trend Apparel Town",
-      tagline: "Style Showcase Reels",
-      description: "Fashion aesthetics shot against historical Tirunelveli architectures. Combined modern tracking camera work and dynamic speed ramps to highlight seasonal clothing launches.",
-      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600&auto=format&fit=crop",
-      videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-    },
-    {
-      id: "bc4",
-      brandName: "Royal Enfield Nellai Riders",
-      tagline: "Stealth 350 Handover Campaign",
-      description: "Dramatic twilight delivery sequence capturing high-torque exhaust rumble, matte paint details, and proud biker smile reactions with cinematic sound design.",
-      image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=600&auto=format&fit=crop",
-      videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-    },
-    {
-      id: "bc5",
-      brandName: "Sangeeth Silks & Sarees",
-      tagline: "Festive Wedding Collection Commercial",
-      description: "Macro silk texture pans, intricate gold border highlights, and vibrant bridal movement storytelling tailored for Instagram sponsored video conversion.",
-      image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600&auto=format&fit=crop",
-      videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-    }
-  ];
-
   const brandCarouselRef = useRef(null);
 
   useEffect(() => {
@@ -170,29 +68,25 @@ export default function Home() {
     getPackages().then((data) => setPackages(data.slice(0, 3))).catch(() => {});
     getBrandMarketing()
       .then((data) => {
-        if (data && data.length > 0) {
-          setBrandCollaborations(data);
-        } else {
-          setBrandCollaborations(defaultBrandCollaborations);
-        }
+        setBrandCollaborations(data || []);
       })
-      .catch(() => setBrandCollaborations(defaultBrandCollaborations));
+      .catch(() => setBrandCollaborations([]));
 
     getReels()
       .then((data) => {
-        if (!data || data.length === 0) { setReels(fallbackReels); return; }
-        const fetched = data.map((r) => ({
+        const fetched = (data || []).map((r) => ({
           id: r.id,
           title: r.title,
           category: r.category,
           client: r.client || "",
           location: r.location || "Tirunelveli",
           coverImage: r.poster || "",
-          videoUrl: r.videoFile || r.videoUrl || "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+          videoFile: r.videoFile || "",
+          videoUrl: r.videoFile || r.videoUrl || "",
         }));
         setReels(fetched);
       })
-      .catch(() => setReels(fallbackReels));
+      .catch(() => setReels([]));
 
     getSettings().then(setSettings).catch(() => {});
   }, []);
@@ -455,6 +349,13 @@ export default function Home() {
                     src={reel.coverImage}
                     alt={reel.title}
                     loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : reel.videoFile ? (
+                  <video
+                    src={reel.videoFile}
+                    muted
+                    preload="metadata"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (

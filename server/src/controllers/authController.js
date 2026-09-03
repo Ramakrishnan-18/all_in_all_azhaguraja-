@@ -3,10 +3,35 @@ import bcrypt from "bcryptjs";
 import { env } from "../config/env.js";
 import { AdminUser } from "../models/AdminUser.js";
 
+const tokenBlacklist = new Set();
+
+export function isTokenBlacklisted(jti) {
+  return tokenBlacklist.has(jti);
+}
+
 function signToken(admin) {
-  return jwt.sign({ sub: admin._id.toString(), role: admin.role }, env.jwtSecret, {
-    expiresIn: env.jwtExpiresIn,
+  const jti = Date.now().toString(36) + Math.random().toString(36).slice(2);
+  return {
+    token: jwt.sign({ sub: admin._id.toString(), role: admin.role, jti }, env.jwtSecret, {
+      expiresIn: env.jwtExpiresIn,
+    }),
+    jti,
+  };
+}
+
+function setTokenCookie(res, token) {
+  const isProd = process.env.NODE_ENV === "production";
+  res.cookie("studio_token", token, {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "strict" : "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+    path: "/",
   });
+}
+
+function clearTokenCookie(res) {
+  res.clearCookie("studio_token", { path: "/" });
 }
 
 // POST /auth/login
@@ -21,8 +46,27 @@ export async function login(req, res) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
 
-  const token = signToken(admin);
-  res.json({ token, name: admin.name, role: admin.role });
+  const { token, jti } = signToken(admin);
+  setTokenCookie(res, token);
+  res.json({ token, name: admin.name, role: admin.role, adminId: admin._id.toString() });
+}
+
+// POST /auth/logout
+export async function logout(req, res) {
+  const header = req.headers.authorization || "";
+  const tokenFromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
+  const tokenFromCookie = req.cookies?.studio_token;
+  const token = tokenFromHeader || tokenFromCookie;
+
+  if (token) {
+    try {
+      const payload = jwt.verify(token, env.jwtSecret);
+      if (payload.jti) tokenBlacklist.add(payload.jti);
+    } catch {}
+  }
+
+  clearTokenCookie(res);
+  res.json({ success: true });
 }
 
 // GET /auth/me
@@ -43,8 +87,17 @@ export async function createAdmin(req, res) {
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Name, email and password are required" });
   }
-  if (password.length < 6) {
-    return res.status(400).json({ message: "Password must be at least 6 characters" });
+  if (password.length < 8) {
+    return res.status(400).json({ message: "Password must be at least 8 characters" });
+  }
+  if (!/[A-Z]/.test(password)) {
+    return res.status(400).json({ message: "Password must contain at least one uppercase letter" });
+  }
+  if (!/[a-z]/.test(password)) {
+    return res.status(400).json({ message: "Password must contain at least one lowercase letter" });
+  }
+  if (!/[0-9]/.test(password)) {
+    return res.status(400).json({ message: "Password must contain at least one number" });
   }
   const exists = await AdminUser.findOne({ email: email.toLowerCase() });
   if (exists) {
@@ -62,7 +115,6 @@ export async function updateAdmin(req, res) {
   const admin = await AdminUser.findById(req.params.id);
   if (!admin) return res.status(404).json({ message: "Admin not found" });
 
-  // An Admin account cannot be demoted or renamed by anyone else.
   if (admin.role === "Admin" && req.admin.role !== "Admin") {
     return res.status(403).json({ message: "Only an Admin can modify the Admin account" });
   }
@@ -78,8 +130,17 @@ export async function changePassword(req, res) {
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ message: "Current and new password are required" });
   }
-  if (newPassword.length < 6) {
-    return res.status(400).json({ message: "Password must be at least 6 characters" });
+  if (newPassword.length < 8) {
+    return res.status(400).json({ message: "Password must be at least 8 characters" });
+  }
+  if (!/[A-Z]/.test(newPassword)) {
+    return res.status(400).json({ message: "Password must contain at least one uppercase letter" });
+  }
+  if (!/[a-z]/.test(newPassword)) {
+    return res.status(400).json({ message: "Password must contain at least one lowercase letter" });
+  }
+  if (!/[0-9]/.test(newPassword)) {
+    return res.status(400).json({ message: "Password must contain at least one number" });
   }
 
   if (req.params.id !== req.admin._id.toString() && req.admin.role !== "Admin") {
@@ -95,6 +156,20 @@ export async function changePassword(req, res) {
 
   admin.passwordHash = await bcrypt.hash(newPassword, 10);
   await admin.save();
+
+  // Invalidate old token
+  const header = req.headers.authorization || "";
+  const tokenFromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
+  const tokenFromCookie = req.cookies?.studio_token;
+  const token = tokenFromHeader || tokenFromCookie;
+  if (token) {
+    try {
+      const payload = jwt.verify(token, env.jwtSecret);
+      if (payload.jti) tokenBlacklist.add(payload.jti);
+    } catch {}
+  }
+  clearTokenCookie(res);
+
   res.json({ success: true });
 }
 

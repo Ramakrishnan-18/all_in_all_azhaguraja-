@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { uploadDir } from "./middlewares/upload.js";
+import { sanitizeInput } from "./middlewares/sanitize.js";
 
 import authRoutes from "./routes/auth.js";
 import resourceRoutes from "./routes/resources.js";
@@ -16,23 +18,31 @@ import mediaRoutes from "./routes/media.js";
 const app = express();
 
 app.use(helmet({
-  crossOriginResourcePolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
 }));
 app.use(
   cors({
-    origin: env.corsOrigins.length ? env.corsOrigins : true,
+    origin: env.corsOrigins.length ? env.corsOrigins : false,
     credentials: true,
   })
 );
-app.use(express.json({ limit: "200mb" }));
-app.use(express.urlencoded({ extended: true, limit: "200mb" }));
+app.use(cookieParser());
+app.use(sanitizeInput);
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
 // Serve uploaded media statically (dev). Replace with CDN in production.
 app.use("/uploads", (req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  if (env.corsOrigins.length) {
+    const origin = req.headers.origin;
+    if (env.corsOrigins.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+  }
   next();
 }, express.static(uploadDir));
 
@@ -40,14 +50,14 @@ app.use("/uploads", (req, res, next) => {
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 // API routes
-app.use("/api", authRoutes); // /api/auth/*, /api/admins/*
-app.use("/api", resourceRoutes); // /api/services, /api/admin/services, etc.
-app.use("/api", enquiryRoutes); // /api/enquiries, /api/admin/enquiries
-app.use("/api", settingRoutes); // /api/settings, /api/admin/settings
-app.use("/api", statsRoutes); // /api/admin/stats
-app.use("/api", uploadRoutes); // /api/admin/upload
-app.use("/api", videoSourceRoutes); // /api/video-sources, /api/admin/video-sources
-app.use("/api", mediaRoutes); // /api/admin/media/presign
+app.use("/api", authRoutes);
+app.use("/api", resourceRoutes);
+app.use("/api", enquiryRoutes);
+app.use("/api", settingRoutes);
+app.use("/api", statsRoutes);
+app.use("/api", uploadRoutes);
+app.use("/api", videoSourceRoutes);
+app.use("/api", mediaRoutes);
 
 // 404
 app.use((req, res) => {
@@ -59,16 +69,16 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error(err);
   if (err.name === "ValidationError") {
-    return res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: "Invalid input data" });
   }
   if (err.code === 11000) {
     return res.status(400).json({ message: "Duplicate value" });
   }
   if (err.message === "Unsupported file type") {
-    return res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: "Unsupported file type" });
   }
   const status = err.status || 500;
-  res.status(status).json({ message: err.message || "Server error" });
+  res.status(status).json({ message: status === 500 ? "Internal server error" : err.message });
 });
 
 export default app;

@@ -10,8 +10,8 @@ export const env = {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean),
-  jwtSecret: process.env.JWT_SECRET || "dev-insecure-secret",
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  jwtSecret: process.env.JWT_SECRET,
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || "1d",
   maxUploadSize: Number(process.env.MAX_UPLOAD_SIZE) || 15 * 1024 * 1024,
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME || "",

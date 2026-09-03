@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
 import { AdminUser } from "../models/AdminUser.js";
+import { isTokenBlacklisted } from "../controllers/authController.js";
 
-// Verifies the Bearer token and attaches the admin to req.admin.
 export async function protect(req, res, next) {
   const header = req.headers.authorization || "";
-  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+  const tokenFromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
+  const tokenFromCookie = req.cookies?.studio_token;
+  const token = tokenFromHeader || tokenFromCookie;
 
   if (!token) {
     return res.status(401).json({ message: "Not authenticated" });
@@ -13,6 +15,11 @@ export async function protect(req, res, next) {
 
   try {
     const payload = jwt.verify(token, env.jwtSecret);
+
+    if (payload.jti && isTokenBlacklisted(payload.jti)) {
+      return res.status(401).json({ message: "Token has been revoked" });
+    }
+
     const admin = await AdminUser.findById(payload.sub);
     if (!admin) {
       return res.status(401).json({ message: "Account no longer exists" });
@@ -24,7 +31,6 @@ export async function protect(req, res, next) {
   }
 }
 
-// Role guard — usage: requireRole("Admin"), requireRole("Manager", "Admin")
 export function requireRole(...roles) {
   return (req, res, next) => {
     if (!req.admin) {
