@@ -4,8 +4,16 @@ import PageHeader from "../components/PageHeader";
 import { getReels } from "../services/reelsService";
 import Loader from "../components/Loader";
 import WhatsAppButton from "../components/WhatsAppButton";
-import { Play, Pause, Volume2, VolumeX, ChevronUp, ChevronDown, X, MapPin, User, Sparkles, Film } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, X, MapPin, User, Sparkles, Film } from "lucide-react";
 import useSEO from "../hooks/useSEO";
+
+function getCloudinaryVideoPoster(videoUrl) {
+  if (!videoUrl || !videoUrl.includes("res.cloudinary.com")) return "";
+  return videoUrl
+    .replace("/video/upload/", "/video/upload/so_0/")
+    .replace(/\.(mov|mp4|webm)(\?.*)?$/i, "$2")
+    .replace(/(\?.*)?$/, ".jpg$1");
+}
 
 const categories = [
   { value: "all", label: "All Reels" },
@@ -25,6 +33,7 @@ export default function Reels() {
   const [reels, setReels] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeReelIndex, setActiveReelIndex] = useState(null);
+  const carouselRef = useRef(null);
 
   // Video playback states for active popup
   const [isPlaying, setIsPlaying] = useState(true);
@@ -36,6 +45,10 @@ export default function Reels() {
     getReels()
       .then((data) => {
         const withPosters = (data || []).map((r) => {
+          if (!r.poster && r.videoFile) {
+            const cloudinaryPoster = getCloudinaryVideoPoster(r.videoFile);
+            if (cloudinaryPoster) return { ...r, poster: cloudinaryPoster };
+          }
           if (!r.poster && r.videoUrl) {
             const ytMatch = r.videoUrl.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([a-zA-Z0-9_-]{11})/);
             if (ytMatch) return { ...r, poster: `https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg` };
@@ -46,6 +59,13 @@ export default function Reels() {
       })
       .catch(() => setReels([]));
   }, []);
+
+  const scrollReels = (direction) => {
+    if (carouselRef.current) {
+      const scrollAmount = direction === "left" ? -350 : 350;
+      carouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   const filteredReels = reels
     ? activeCategory === "all"
@@ -172,18 +192,39 @@ export default function Reels() {
               <p className="text-slate-soft">No reels uploaded yet.</p>
             </div>
           ) : (
-            /* 9:16 Vertical Reels Grid */
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {filteredReels.map((project, index) => {
-                return (
+            <>
+              {/* Swipeable Reels Carousel */}
+              <div className="flex items-center justify-end gap-2 mb-4">
+                <button
+                  onClick={() => scrollReels("left")}
+                  aria-label="Scroll reels left"
+                  className="w-10 h-10 border border-slate/20 hover:border-ink hover:bg-ink hover:text-white flex items-center justify-center transition-colors cursor-pointer text-ink"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => scrollReels("right")}
+                  aria-label="Scroll reels right"
+                  className="w-10 h-10 border border-slate/20 hover:border-ink hover:bg-ink hover:text-white flex items-center justify-center transition-colors cursor-pointer text-ink"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              <div
+                ref={carouselRef}
+                className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 -mx-6 px-6 lg:-mx-10 lg:px-10"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                {filteredReels.map((project, index) => (
                   <motion.div
                     key={project.id || index}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.35, delay: (index % 4) * 0.05 }}
+                    transition={{ duration: 0.35, delay: (index % 5) * 0.05 }}
                     onClick={() => handleOpenReel(index)}
-                    className="relative aspect-[9/16] bg-slate overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl border border-slate/10 transition-all duration-300 rounded-xs"
+                    className="relative aspect-[9/16] w-[72vw] sm:w-[260px] md:w-[280px] shrink-0 snap-start bg-slate overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl border border-slate/10 transition-all duration-300 rounded-xs"
                   >
                     {/* Cover photo / poster */}
                     {project.poster ? (
@@ -192,6 +233,9 @@ export default function Reels() {
                         alt={project.title}
                         loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        onError={(event) => {
+                          event.currentTarget.style.display = "none";
+                        }}
                       />
                     ) : project.videoFile ? (
                       <video
@@ -243,9 +287,18 @@ export default function Reels() {
                       )}
                     </div>
                   </motion.div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+
+              {/* Swipe hint */}
+              <div className="flex items-center justify-between mt-4 text-slate-soft text-xs">
+                <p className="flex items-center gap-1.5 text-[11px] font-mono">
+                  <span className="inline-block w-2 h-2 rounded-full bg-signal-gold animate-pulse" />
+                  <span>Swipe or click arrows to view all {filteredReels.length} reels</span>
+                </p>
+                <span className="text-[10px] font-mono opacity-70">Click reel to play</span>
+              </div>
+            </>
           )}
         </div>
       </section>

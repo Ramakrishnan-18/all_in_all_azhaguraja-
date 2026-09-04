@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Film, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Film, AlertCircle, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 export default function AdminLogin() {
@@ -28,6 +28,14 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-ink flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-sm">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-paper/50 hover:text-signal-gold transition-colors mb-8 cursor-pointer"
+        >
+          <ArrowLeft size={16} />
+          <span className="eyebrow text-[10px] tracking-widest font-bold">Back to Site</span>
+        </button>
+
         <div className="flex items-center gap-2 justify-center mb-10">
           <span className="w-9 h-9 border border-signal-gold flex items-center justify-center">
             <Film size={16} className="text-signal-gold" />
