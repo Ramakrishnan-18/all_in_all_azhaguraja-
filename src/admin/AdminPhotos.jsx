@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { adminGetPhotos, adminSavePhoto, adminDeletePhoto } from "../services/photosService";
 import { uploadFile } from "../services/uploadService";
 import Loader from "../components/Loader";
-import { Plus, Trash2, Search, MapPin, Calendar, Save, X, UploadCloud } from "lucide-react";
+import { Plus, Trash2, Search, MapPin, Calendar, Save, X, UploadCloud, Edit3 } from "lucide-react";
 
 const categories = [
   "Weddings",
@@ -27,6 +27,7 @@ export default function AdminPhotos() {
   const [photos, setPhotos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -55,6 +56,20 @@ export default function AdminPhotos() {
     refresh();
   };
 
+  const handleEdit = (p) => {
+    setForm({
+      title: p.title || "",
+      category: p.category || "Portraits",
+      url: p.url || "",
+      location: p.location || "",
+      date: p.date || "",
+      fileName: "",
+    });
+    setEditingId(p._id || p.id);
+    setShowForm(true);
+    setUploadErr("");
+  };
+
   const handleInput = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
   const handleFile = async (e) => {
@@ -76,9 +91,14 @@ export default function AdminPhotos() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-    await adminSavePhoto({ ...form });
+    if (editingId) {
+      await adminSavePhoto({ ...form, _id: editingId });
+    } else {
+      await adminSavePhoto({ ...form });
+    }
     setSaving(false);
     setForm(emptyForm);
+    setEditingId(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
     setShowForm(false);
     refresh();
@@ -103,6 +123,7 @@ export default function AdminPhotos() {
         <button
           onClick={() => {
             setShowForm((s) => !s);
+            setEditingId(null);
             setForm(emptyForm);
             if (fileInputRef.current) fileInputRef.current.value = "";
           }}
@@ -186,7 +207,7 @@ export default function AdminPhotos() {
             </button>
             <button
               type="button"
-              onClick={() => { setShowForm(false); setForm(emptyForm); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+              onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyForm); if (fileInputRef.current) fileInputRef.current.value = ""; }}
               className="eyebrow border border-slate/20 text-slate-soft px-6 py-4 hover:bg-slate-50 transition-colors text-xs font-bold tracking-wider cursor-pointer"
             >
               Cancel
@@ -248,13 +269,22 @@ export default function AdminPhotos() {
                       {p.published !== false ? "Published" : "Hidden"}
                     </label>
                   </div>
-                  <button
-                    onClick={() => handleDelete(p.id)}
-                    className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10 hover:border-red-200"
-                    title="Delete Photo"
-                  >
-                    <Trash2 size={12} />
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => handleEdit(p)}
+                      className="text-slate-soft hover:text-studio-blue p-1.5 border border-slate/10 hover:border-studio-blue/30 cursor-pointer"
+                      title="Edit Photo"
+                    >
+                      <Edit3 size={12} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(p.id)}
+                      className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10 hover:border-red-200"
+                      title="Delete Photo"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
