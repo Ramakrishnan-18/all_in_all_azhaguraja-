@@ -15,7 +15,6 @@ import Reels from "./pages/Reels";
 import Contact from "./pages/Contact";
 import BookSession from "./pages/BookSession";
 import Booking from "./pages/Booking";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
@@ -51,7 +50,6 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/booking" element={<Navigate to="/contact" replace />} />
             <Route path="/book-session" element={<Navigate to="/contact" replace />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" replace />} />

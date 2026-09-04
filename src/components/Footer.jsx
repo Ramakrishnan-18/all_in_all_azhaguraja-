@@ -91,7 +91,6 @@ export default function Footer() {
       <div className="max-w-[1400px] mx-auto pt-8 flex flex-col md:flex-row justify-between gap-4 text-xs text-paper/50">
         <p>© {new Date().getFullYear()} {settings.brandName}. All rights reserved.</p>
         <div className="flex gap-4">
-          <Link to="/privacy-policy" className="hover:text-signal-gold transition-colors">Privacy Policy</Link>
           <Link to="/terms" className="hover:text-signal-gold transition-colors">Terms &amp; Conditions</Link>
         </div>
         <p className="font-mono text-[9px] tracking-wider uppercase text-signal-gold/60">CREATED TO CREATE MOMENTS &amp; BUILD BRANDS.</p>
