@@ -21,7 +21,7 @@ export default function AdminPackages() {
   if (!packages) return <Loader label="Loading pricing deals" />;
 
   const startEdit = (p) => {
-    setEditingId(p.id);
+    setEditingId(p._id || p.id);
     setCategory(p.category);
     setPackageName(p.packageName);
     setPrice(p.price);
@@ -44,7 +44,7 @@ export default function AdminPackages() {
       .filter((item) => item.length > 0);
 
     const payload = {
-      id: editingId === "new" ? undefined : editingId,
+      _id: editingId === "new" ? undefined : editingId,
       category,
       packageName,
       price: Number(price),
@@ -146,7 +146,7 @@ export default function AdminPackages() {
           </thead>
           <tbody>
             {packages.map((p) => (
-              <tr key={p.id} className="border-b border-slate/5 hover:bg-mist/10">
+              <tr key={p._id || p.id} className="border-b border-slate/5 hover:bg-mist/10">
                 <td className="py-3 px-4 font-semibold text-ink">{p.category}</td>
                 <td className="py-3 px-4 capitalize">{p.packageName}</td>
                 <td className="py-3 px-4 max-w-xs truncate">{p.features?.join(", ")}</td>
@@ -158,9 +158,9 @@ export default function AdminPackages() {
                       checked={p.enabled !== false}
                       onChange={() => handleToggle(p)}
                       className="w-3.5 h-3.5 accent-studio-blue cursor-pointer"
-                      id={`pkg-chk-${p.id}`}
+                      id={`pkg-chk-${p._id || p.id}`}
                     />
-                    <label htmlFor={`pkg-chk-${p.id}`} className="text-[10px] font-mono text-slate-soft uppercase cursor-pointer">
+                    <label htmlFor={`pkg-chk-${p._id || p.id}`} className="text-[10px] font-mono text-slate-soft uppercase cursor-pointer">
                       {p.enabled !== false ? "Active" : "Disabled"}
                     </label>
                   </div>
@@ -175,7 +175,7 @@ export default function AdminPackages() {
                       <Edit3 size={12} />
                     </button>
                     <button
-                      onClick={() => handleDelete(p.id)}
+                      onClick={() => handleDelete(p._id || p.id)}
                       className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10"
                       title="Delete Package"
                     >

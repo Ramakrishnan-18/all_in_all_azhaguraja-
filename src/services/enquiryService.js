@@ -1,8 +1,5 @@
 import api from "./api";
 
-// The real backend stores enquiries in MongoDB and returns them newest-first.
-// We map the Mongo _id to a plain `id` so the admin UI keeps working unchanged.
-
 async function submitEnquiry(enquiry) {
   const { data } = await api.post("/enquiries", enquiry);
   return { success: true, id: data.id };
@@ -10,7 +7,8 @@ async function submitEnquiry(enquiry) {
 
 async function adminGetEnquiries() {
   const { data } = await api.get("/admin/enquiries");
-  return (data || []).map((e) => ({ ...e, id: e._id }));
+  const list = data.value || data.data || data || [];
+  return list.map((e) => ({ ...e, id: e._id }));
 }
 
 async function adminUpdateEnquiryStatus(id, status) {

@@ -2,21 +2,26 @@ import api from "./api";
 
 export async function getPhotos() {
   const { data } = await api.get("/photos");
-  return (data || []).map((p) => ({ ...p, id: p._id }));
+  const list = data.value || data.data || data || [];
+  return list.map((p) => ({ ...p, id: p._id }));
 }
 
 export async function adminGetPhotos() {
   const { data } = await api.get("/admin/photos");
-  return (data || []).map((p) => ({ ...p, id: p._id }));
+  const list = data.value || data.data || data || [];
+  return list.map((p) => ({ ...p, id: p._id }));
 }
 
 export async function adminSavePhoto(photo) {
-  if (photo.id) {
-    const { data } = await api.patch(`/admin/photos/${photo.id}`, photo);
-    return { ...data, id: data._id };
+  const id = photo._id || photo.id;
+  if (id) {
+    const { data } = await api.patch(`/admin/photos/${id}`, photo);
+    const saved = data.value || data.data || data;
+    return { ...saved, id: saved._id };
   }
   const { data } = await api.post("/admin/photos", photo);
-  return { ...data, id: data._id };
+  const saved = data.value || data.data || data;
+  return { ...saved, id: saved._id };
 }
 
 export async function adminDeletePhoto(id) {

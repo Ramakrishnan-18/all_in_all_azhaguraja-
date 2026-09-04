@@ -61,7 +61,7 @@ export default function AdminServices() {
   };
 
   const startEditService = (s) => {
-    setEditingServiceId(s.id);
+    setEditingServiceId(s._id || s.id);
     setServiceTitle(s.title);
     setServiceDescription(s.description);
     setServiceImage(s.image);
@@ -89,7 +89,7 @@ export default function AdminServices() {
       .filter((item) => item.length > 0);
 
     const payload = {
-      id: editingServiceId === "new" ? undefined : editingServiceId,
+      _id: editingServiceId === "new" ? undefined : editingServiceId,
       title: serviceTitle,
       description: serviceDescription,
       image: serviceImage,
@@ -124,7 +124,7 @@ export default function AdminServices() {
   };
 
   const startEditPkg = (p) => {
-    setEditingPkgId(p.id);
+    setEditingPkgId(p._id || p.id);
     setPkgCategory(p.category);
     setPkgName(p.packageName);
     setPkgPrice(p.price);
@@ -139,7 +139,7 @@ export default function AdminServices() {
       .filter((item) => item.length > 0);
 
     const payload = {
-      id: editingPkgId === "new" ? undefined : editingPkgId,
+      _id: editingPkgId === "new" ? undefined : editingPkgId,
       category: pkgCategory,
       packageName: pkgName,
       price: Number(pkgPrice),
@@ -309,7 +309,7 @@ export default function AdminServices() {
               </thead>
               <tbody>
                 {services.map((s) => (
-                  <tr key={s.id} className="border-b border-slate/5 hover:bg-mist/10">
+                  <tr key={s._id || s.id} className="border-b border-slate/5 hover:bg-mist/10">
                     <td className="py-3 px-4 font-semibold text-ink">{s.title}</td>
                     <td className="py-3 px-4 max-w-sm line-clamp-1 truncate">{s.description}</td>
                     <td className="py-3 px-4 font-mono font-bold text-studio-blue-deep">₹{s.startingPrice?.toLocaleString("en-IN")}</td>
@@ -320,9 +320,9 @@ export default function AdminServices() {
                           checked={s.enabled !== false}
                           onChange={() => handleToggleService(s)}
                           className="w-3.5 h-3.5 accent-studio-blue cursor-pointer"
-                          id={`chk-${s.id}`}
+                          id={`chk-${s._id || s.id}`}
                         />
-                        <label htmlFor={`chk-${s.id}`} className="text-[10px] font-mono text-slate-soft uppercase cursor-pointer">
+                        <label htmlFor={`chk-${s._id || s.id}`} className="text-[10px] font-mono text-slate-soft uppercase cursor-pointer">
                           {s.enabled !== false ? "Active" : "Disabled"}
                         </label>
                       </div>
@@ -337,7 +337,7 @@ export default function AdminServices() {
                           <Edit3 size={12} />
                         </button>
                         <button
-                          onClick={() => handleDeleteService(s.id)}
+                          onClick={() => handleDeleteService(s._id || s.id)}
                           className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10 cursor-pointer"
                           title="Delete Service"
                         >
@@ -417,7 +417,7 @@ export default function AdminServices() {
               </thead>
               <tbody>
                 {packages.map((p) => (
-                  <tr key={p.id} className="border-b border-slate/5 hover:bg-mist/10">
+                  <tr key={p._id || p.id} className="border-b border-slate/5 hover:bg-mist/10">
                     <td className="py-3 px-4 font-semibold text-ink">{p.category}</td>
                     <td className="py-3 px-4 capitalize font-medium">{p.packageName}</td>
                     <td className="py-3 px-4 max-w-xs truncate">{p.features?.join(", ")}</td>
@@ -429,9 +429,9 @@ export default function AdminServices() {
                           checked={p.enabled !== false}
                           onChange={() => handleTogglePkg(p)}
                           className="w-3.5 h-3.5 accent-studio-blue cursor-pointer"
-                          id={`pkg-chk-${p.id}`}
+                          id={`pkg-chk-${p._id || p.id}`}
                         />
-                        <label htmlFor={`pkg-chk-${p.id}`} className="text-[10px] font-mono text-slate-soft uppercase cursor-pointer">
+                        <label htmlFor={`pkg-chk-${p._id || p.id}`} className="text-[10px] font-mono text-slate-soft uppercase cursor-pointer">
                           {p.enabled !== false ? "Active" : "Disabled"}
                         </label>
                       </div>
@@ -446,7 +446,7 @@ export default function AdminServices() {
                           <Edit3 size={12} />
                         </button>
                         <button
-                          onClick={() => handleDeletePkg(p.id)}
+                          onClick={() => handleDeletePkg(p._id || p.id)}
                           className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10 cursor-pointer"
                           title="Delete Package"
                         >

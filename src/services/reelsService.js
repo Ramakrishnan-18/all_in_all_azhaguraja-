@@ -2,21 +2,26 @@ import api from "./api";
 
 export async function getReels() {
   const { data } = await api.get("/reels");
-  return (data || []).map((r) => ({ ...r, id: r._id }));
+  const list = data.value || data.data || data || [];
+  return list.map((r) => ({ ...r, id: r._id }));
 }
 
 export async function adminGetReels() {
   const { data } = await api.get("/admin/reels");
-  return (data || []).map((r) => ({ ...r, id: r._id }));
+  const list = data.value || data.data || data || [];
+  return list.map((r) => ({ ...r, id: r._id }));
 }
 
 export async function adminSaveReel(reel) {
-  if (reel.id) {
-    const { data } = await api.patch(`/admin/reels/${reel.id}`, reel);
-    return { ...data, id: data._id };
+  const id = reel._id || reel.id;
+  if (id) {
+    const { data } = await api.patch(`/admin/reels/${id}`, reel);
+    const saved = data.value || data.data || data;
+    return { ...saved, id: saved._id };
   }
   const { data } = await api.post("/admin/reels", reel);
-  return { ...data, id: data._id };
+  const saved = data.value || data.data || data;
+  return { ...saved, id: saved._id };
 }
 
 export async function adminDeleteReel(id) {
