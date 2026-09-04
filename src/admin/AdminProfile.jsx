@@ -59,7 +59,6 @@ export default function AdminProfile() {
     e.preventDefault();
     try {
       await updateAdminAccount(currentId, { name });
-      localStorage.setItem("studio_admin_name", name);
       setAdminName(name);
       await refreshAdmins();
       setSuccess(true);

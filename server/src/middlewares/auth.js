@@ -4,10 +4,7 @@ import { AdminUser } from "../models/AdminUser.js";
 import { isTokenBlacklisted } from "../controllers/authController.js";
 
 export async function protect(req, res, next) {
-  const header = req.headers.authorization || "";
-  const tokenFromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
-  const tokenFromCookie = req.cookies?.studio_token;
-  const token = tokenFromHeader || tokenFromCookie;
+  const token = req.cookies?.studio_token;
 
   if (!token) {
     return res.status(401).json({ message: "Not authenticated" });

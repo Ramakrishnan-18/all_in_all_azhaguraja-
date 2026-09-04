@@ -1,22 +1,22 @@
 import api from "./api";
 
+let currentAdmin = null;
+
 export async function login(email, password) {
   const { data } = await api.post("/login", { email, password });
-  if (data.token) localStorage.setItem("studio_admin_token", data.token);
-  localStorage.setItem("studio_admin_name", data.name || "");
-  localStorage.setItem("studio_admin_email", data.email || email);
-  localStorage.setItem("studio_admin_role", data.role || "Staff");
-  if (data.adminId) localStorage.setItem("studio_admin_id", data.adminId);
+  currentAdmin = data;
+  return data;
+}
+
+export async function getCurrentAdmin() {
+  const { data } = await api.get("/me");
+  currentAdmin = data;
   return data;
 }
 
 export async function logout() {
   try { await api.post("/logout"); } catch {}
-  localStorage.removeItem("studio_admin_token");
-  localStorage.removeItem("studio_admin_name");
-  localStorage.removeItem("studio_admin_email");
-  localStorage.removeItem("studio_admin_id");
-  localStorage.removeItem("studio_admin_role");
+  currentAdmin = null;
 }
 
 export async function getAdminAccounts() {
@@ -45,17 +45,21 @@ export async function changePassword(id, currentPassword, newPassword) {
 }
 
 export function getCurrentAdminId() {
-  return localStorage.getItem("studio_admin_id");
+  return currentAdmin?._id || currentAdmin?.adminId || null;
 }
 
 export function isAuthenticated() {
-  return Boolean(localStorage.getItem("studio_admin_token"));
+  return Boolean(currentAdmin);
 }
 
 export function getCurrentRole() {
-  return localStorage.getItem("studio_admin_role") || "Staff";
+  return currentAdmin?.role || "Staff";
 }
 
 export function getCurrentAdminEmail() {
-  return localStorage.getItem("studio_admin_email") || "";
+  return currentAdmin?.email || "";
+}
+
+export function getCurrentAdminName() {
+  return currentAdmin?.name || "";
 }

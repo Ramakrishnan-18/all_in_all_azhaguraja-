@@ -4,6 +4,8 @@ import { env } from "../config/env.js";
 import { AdminUser } from "../models/AdminUser.js";
 
 const tokenBlacklist = new Set();
+const MAX_LOGIN_FAILURES = 5;
+const LOCKOUT_MS = 15 * 60 * 1000;
 
 export function isTokenBlacklisted(jti) {
   return tokenBlacklist.has(jti);
@@ -42,21 +44,37 @@ export async function login(req, res) {
   }
 
   const admin = await AdminUser.findOne({ email: email.toLowerCase() });
+  const isLocked = admin?.lockUntil && admin.lockUntil.getTime() > Date.now();
+  if (isLocked) {
+    return res.status(429).json({ message: "Too many failed attempts. Try again after 15 minutes." });
+  }
+
   if (!admin || !(await admin.comparePassword(password))) {
+    if (admin) {
+      admin.loginFailures = (admin.loginFailures || 0) + 1;
+      if (admin.loginFailures >= MAX_LOGIN_FAILURES) {
+        admin.lockUntil = new Date(Date.now() + LOCKOUT_MS);
+        admin.loginFailures = 0;
+      }
+      await admin.save();
+    }
     return res.status(401).json({ message: "Invalid email or password" });
   }
 
-  const { token, jti } = signToken(admin);
+  if (admin.loginFailures || admin.lockUntil) {
+    admin.loginFailures = 0;
+    admin.lockUntil = null;
+    await admin.save();
+  }
+
+  const { token } = signToken(admin);
   setTokenCookie(res, token);
-  res.json({ token, name: admin.name, email: admin.email, role: admin.role, adminId: admin._id.toString() });
+  res.json({ name: admin.name, email: admin.email, role: admin.role, adminId: admin._id.toString() });
 }
 
 // POST /auth/logout
 export async function logout(req, res) {
-  const header = req.headers.authorization || "";
-  const tokenFromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
-  const tokenFromCookie = req.cookies?.studio_token;
-  const token = tokenFromHeader || tokenFromCookie;
+  const token = req.cookies?.studio_token;
 
   if (token) {
     try {
@@ -158,10 +176,7 @@ export async function changePassword(req, res) {
   await admin.save();
 
   // Invalidate old token
-  const header = req.headers.authorization || "";
-  const tokenFromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
-  const tokenFromCookie = req.cookies?.studio_token;
-  const token = tokenFromHeader || tokenFromCookie;
+  const token = req.cookies?.studio_token;
   if (token) {
     try {
       const payload = jwt.verify(token, env.jwtSecret);

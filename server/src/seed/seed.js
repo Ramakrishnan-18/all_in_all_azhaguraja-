@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 import { env } from "../config/env.js";
 import {
   Service,
@@ -79,19 +78,6 @@ async function seed({ wipe = false } = {}) {
     console.log("Seeded VideoSource:", initialVideoSources.length);
   } else {
     console.log("Skipped VideoSource (already has data)");
-  }
-
-  // Admin account
-  if ((await AdminUser.countDocuments()) === 0) {
-    await AdminUser.create({
-      name: "Azhaguraja S.",
-      email: "admin@studio.com",
-      passwordHash: await bcrypt.hash("studio2026", 10),
-      role: "Admin",
-    });
-    console.log("Seeded Admin account (admin@studio.com / studio2026)");
-  } else {
-    console.log("Skipped AdminUser (already has data)");
   }
 
   console.log("Seed complete.");
