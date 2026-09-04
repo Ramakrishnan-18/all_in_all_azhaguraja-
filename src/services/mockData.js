@@ -5,7 +5,10 @@ const STORAGE_KEYS = {
   SERVICES: "azhaguraja_services",
   PACKAGES: "azhaguraja_packages",
   SETTINGS: "azhaguraja_settings",
+  SEED_VERSION: "azhaguraja_seed_version",
 };
+
+const CURRENT_SEED_VERSION = 2;
 
 const initialServices = [
   {
@@ -108,6 +111,16 @@ const setStored = (key, value) => {
 };
 
 export function seedDB() {
+  const storedVersion = Number(localStorage.getItem(STORAGE_KEYS.SEED_VERSION)) || 0;
+
+  if (storedVersion < CURRENT_SEED_VERSION) {
+    setStored(STORAGE_KEYS.SERVICES, initialServices);
+    setStored(STORAGE_KEYS.PACKAGES, initialPackages);
+    setStored(STORAGE_KEYS.SETTINGS, initialSettings);
+    localStorage.setItem(STORAGE_KEYS.SEED_VERSION, CURRENT_SEED_VERSION);
+    return;
+  }
+
   if (!localStorage.getItem(STORAGE_KEYS.SERVICES)) {
     setStored(STORAGE_KEYS.SERVICES, initialServices);
   }
