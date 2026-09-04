@@ -1,27 +1,32 @@
-import api from "./api";
+import { _db } from "./mockData";
 
 export async function getServices() {
-  const { data } = await api.get("/services");
-  const list = data.value || data.data || data;
-  return list.filter((s) => s.enabled !== false);
+  return _db.getServices().filter((s) => s.enabled !== false);
 }
 
 export async function adminGetServices() {
-  const { data } = await api.get("/admin/services");
-  return data.value || data.data || data;
+  return _db.getServices();
 }
 
 export async function adminSaveService(service) {
-  const id = service._id || service.id;
-  if (id) {
-    const { data } = await api.patch(`/admin/services/${id}`, service);
-    return data.value || data.data || data;
+  const all = _db.getServices();
+  if (service.id) {
+    const idx = all.findIndex((s) => s.id === service.id);
+    if (idx !== -1) {
+      all[idx] = { ...all[idx], ...service };
+    }
+  } else {
+    service.id = "s" + Date.now();
+    service.enabled = true;
+    all.push(service);
   }
-  const { data } = await api.post("/admin/services", service);
-  return data.value || data.data || data;
+  _db.setServices(all);
+  return service;
 }
 
 export async function adminDeleteService(id) {
-  await api.delete(`/admin/services/${id}`);
+  const all = _db.getServices();
+  const next = all.filter((s) => s.id !== id);
+  _db.setServices(next);
   return true;
 }

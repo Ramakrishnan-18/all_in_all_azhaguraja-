@@ -1,27 +1,32 @@
-import api from "./api";
+import { _db } from "./mockData";
 
 export async function getPackages() {
-  const { data } = await api.get("/packages");
-  const list = data.value || data.data || data;
-  return list.filter((p) => p.enabled !== false);
+  return _db.getPackages().filter((p) => p.enabled !== false);
 }
 
 export async function adminGetPackages() {
-  const { data } = await api.get("/admin/packages");
-  return data.value || data.data || data;
+  return _db.getPackages();
 }
 
 export async function adminSavePackage(pkg) {
-  const id = pkg._id || pkg.id;
-  if (id) {
-    const { data } = await api.patch(`/admin/packages/${id}`, pkg);
-    return data.value || data.data || data;
+  const all = _db.getPackages();
+  if (pkg.id) {
+    const idx = all.findIndex((p) => p.id === pkg.id);
+    if (idx !== -1) {
+      all[idx] = { ...all[idx], ...pkg };
+    }
+  } else {
+    pkg.id = "pk" + Date.now();
+    pkg.enabled = true;
+    all.push(pkg);
   }
-  const { data } = await api.post("/admin/packages", pkg);
-  return data.value || data.data || data;
+  _db.setPackages(all);
+  return pkg;
 }
 
 export async function adminDeletePackage(id) {
-  await api.delete(`/admin/packages/${id}`);
+  const all = _db.getPackages();
+  const next = all.filter((p) => p.id !== id);
+  _db.setPackages(next);
   return true;
 }
