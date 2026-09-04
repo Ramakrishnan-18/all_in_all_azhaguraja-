@@ -4,6 +4,7 @@ export async function login(email, password) {
   const { data } = await api.post("/login", { email, password });
   if (data.token) localStorage.setItem("studio_admin_token", data.token);
   localStorage.setItem("studio_admin_name", data.name || "");
+  localStorage.setItem("studio_admin_email", email);
   localStorage.setItem("studio_admin_role", data.role || "Staff");
   if (data.adminId) localStorage.setItem("studio_admin_id", data.adminId);
   return data;
@@ -13,6 +14,7 @@ export async function logout() {
   try { await api.post("/logout"); } catch {}
   localStorage.removeItem("studio_admin_token");
   localStorage.removeItem("studio_admin_name");
+  localStorage.removeItem("studio_admin_email");
   localStorage.removeItem("studio_admin_id");
   localStorage.removeItem("studio_admin_role");
 }
@@ -52,4 +54,8 @@ export function isAuthenticated() {
 
 export function getCurrentRole() {
   return localStorage.getItem("studio_admin_role") || "Staff";
+}
+
+export function getCurrentAdminEmail() {
+  return localStorage.getItem("studio_admin_email") || "";
 }

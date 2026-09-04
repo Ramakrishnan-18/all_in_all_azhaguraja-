@@ -10,7 +10,8 @@ import {
   deleteAdminAccount,
   updateAdminAccount,
   changePassword,
-  getCurrentAdminId
+  getCurrentAdminId,
+  getCurrentAdminEmail
 } from "../services/authService";
 
 const inputClass = "w-full border border-slate/20 px-4 py-3 text-sm outline-none focus:border-studio-blue bg-white font-sans text-ink";
@@ -27,7 +28,7 @@ export default function AdminProfile() {
 
   // ---- My Profile state ----
   const [name, setName] = useState(adminName || "Azhaguraja S.");
-  const [email, setEmail] = useState("admin@studio.com");
+  const [email] = useState(getCurrentAdminEmail() || "admin@studio.com");
   const [role] = useState("Admin");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
