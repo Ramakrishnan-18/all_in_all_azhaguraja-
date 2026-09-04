@@ -4,7 +4,7 @@ export async function login(email, password) {
   const { data } = await api.post("/login", { email, password });
   if (data.token) localStorage.setItem("studio_admin_token", data.token);
   localStorage.setItem("studio_admin_name", data.name || "");
-  localStorage.setItem("studio_admin_email", email);
+  localStorage.setItem("studio_admin_email", data.email || email);
   localStorage.setItem("studio_admin_role", data.role || "Staff");
   if (data.adminId) localStorage.setItem("studio_admin_id", data.adminId);
   return data;

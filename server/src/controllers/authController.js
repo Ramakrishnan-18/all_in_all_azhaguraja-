@@ -48,7 +48,7 @@ export async function login(req, res) {
 
   const { token, jti } = signToken(admin);
   setTokenCookie(res, token);
-  res.json({ token, name: admin.name, role: admin.role, adminId: admin._id.toString() });
+  res.json({ token, name: admin.name, email: admin.email, role: admin.role, adminId: admin._id.toString() });
 }
 
 // POST /auth/logout
