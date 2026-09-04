@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { adminGetReels, adminSaveReel, adminDeleteReel } from "../services/reelsService";
 import { uploadFile } from "../services/uploadService";
 import Loader from "../components/Loader";
-import { Plus, Trash2, Search, MapPin, User, Play, Save, X, AlertTriangle, Upload, Film, ImageIcon } from "lucide-react";
+import { Plus, Trash2, Search, MapPin, User, Play, Save, X, AlertTriangle, Upload, Film, ImageIcon, Edit3 } from "lucide-react";
 
 const categories = [
   "Personal Reels",
@@ -26,6 +26,7 @@ export default function AdminReels() {
   const [reels, setReels] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -53,6 +54,21 @@ export default function AdminReels() {
     if (!confirm("Are you sure you want to delete this reel? This will permanently remove it.")) return;
     await adminDeleteReel(id);
     refresh();
+  };
+
+  const handleEdit = (r) => {
+    setForm({
+      title: r.title || "",
+      category: r.category || "Personal Reels",
+      client: r.client || "",
+      location: r.location || "",
+      videoFile: r.videoFile || "",
+      poster: r.poster || "",
+    });
+    setEditingId(r._id || r.id);
+    setShowForm(true);
+    setError("");
+    setUploadProgress("");
   };
 
   const handleInput = (field) => (e) => {
@@ -103,8 +119,13 @@ export default function AdminReels() {
     setSaving(true);
     setError("");
     try {
-      await adminSaveReel({ ...form });
+      if (editingId) {
+        await adminSaveReel({ ...form, _id: editingId });
+      } else {
+        await adminSaveReel({ ...form });
+      }
       setForm(emptyForm);
+      setEditingId(null);
       setShowForm(false);
       refresh();
     } catch (err) {
@@ -132,7 +153,7 @@ export default function AdminReels() {
           <p className="text-slate-soft text-sm">Upload and manage the vertical video reels shown on the public reels page.</p>
         </div>
         <button
-          onClick={() => setShowForm((s) => !s)}
+          onClick={() => { setShowForm((s) => !s); setEditingId(null); setForm(emptyForm); setError(""); setUploadProgress(""); }}
           className="eyebrow bg-studio-blue text-paper px-4 py-3 hover:bg-ink text-[10px] font-bold tracking-wider flex items-center gap-1.5 shadow-md shadow-studio-blue/15 cursor-pointer"
         >
           {showForm ? <><X size={13} /> Cancel</> : <><Plus size={13} /> Add Reel</>}
@@ -222,7 +243,7 @@ export default function AdminReels() {
             </button>
             <button
               type="button"
-              onClick={() => { setShowForm(false); setForm(emptyForm); setError(""); setUploadProgress(""); }}
+              onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyForm); setError(""); setUploadProgress(""); }}
               className="eyebrow border border-slate/20 text-slate-soft px-6 py-4 hover:bg-slate-50 transition-colors text-xs font-bold tracking-wider cursor-pointer"
             >
               Cancel
@@ -296,13 +317,22 @@ export default function AdminReels() {
                       {r.published !== false ? "Published" : "Hidden"}
                     </label>
                   </div>
-                  <button
-                    onClick={() => handleDelete(r.id)}
-                    className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10 hover:border-red-200"
-                    title="Delete Reel"
-                  >
-                    <Trash2 size={12} />
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => handleEdit(r)}
+                      className="text-slate-soft hover:text-studio-blue p-1.5 border border-slate/10 hover:border-studio-blue/30 cursor-pointer"
+                      title="Edit Reel"
+                    >
+                      <Edit3 size={12} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(r.id)}
+                      className="text-slate-soft hover:text-red-600 p-1.5 border border-slate/10 hover:border-red-200"
+                      title="Delete Reel"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

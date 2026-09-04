@@ -100,6 +100,17 @@ export default function Reels() {
     }
   }, [activeReelIndex, filteredReels.length]);
 
+  // Touch swipe support for lightbox
+  const touchStartY = useRef(0);
+  const handleTouchStart = (e) => { touchStartY.current = e.touches[0].clientY; };
+  const handleTouchEnd = (e) => {
+    const diff = touchStartY.current - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) handleNextReel();
+      else handlePrevReel();
+    }
+  };
+
   // Keyboard navigation for reels
   useEffect(() => {
     if (activeReelIndex === null) return;
@@ -311,12 +322,14 @@ export default function Reels() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleCloseReel}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
             className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg flex items-center justify-center p-3 md:p-6 cursor-zoom-out select-none"
           >
             {/* Prev / Next Navigation buttons on desktop */}
             {filteredReels.length > 1 && (
               <div
-                className="hidden md:flex flex-col gap-4 absolute right-6 lg:right-12 z-30"
+                className="flex flex-col gap-4 absolute right-3 md:right-6 lg:right-12 z-30"
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
@@ -398,6 +411,24 @@ export default function Reels() {
 
               {/* Bottom Video Controls & Info Overlay */}
               <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent z-30 flex flex-col gap-3">
+                {/* Mobile prev/next row */}
+                {filteredReels.length > 1 && (
+                  <div className="flex md:hidden items-center justify-center gap-3 pb-1" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={handlePrevReel}
+                      className="px-4 py-1.5 bg-white/15 border border-white/20 text-white text-[10px] font-bold tracking-wider hover:bg-signal-gold hover:text-ink transition-all cursor-pointer"
+                    >
+                      ← Prev
+                    </button>
+                    <span className="text-[10px] font-mono text-paper/50">{activeReelIndex + 1}/{filteredReels.length}</span>
+                    <button
+                      onClick={handleNextReel}
+                      className="px-4 py-1.5 bg-white/15 border border-white/20 text-white text-[10px] font-bold tracking-wider hover:bg-signal-gold hover:text-ink transition-all cursor-pointer"
+                    >
+                      Next →
+                    </button>
+                  </div>
+                )}
                 {/* Progress bar (for native video) */}
                 {videoSrc && (
                   <div
