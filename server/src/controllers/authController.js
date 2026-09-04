@@ -26,14 +26,19 @@ function setTokenCookie(res, token) {
   res.cookie("studio_token", token, {
     httpOnly: true,
     secure: isProd,
-    sameSite: isProd ? "strict" : "lax",
+    sameSite: isProd ? "none" : "lax",
     maxAge: 24 * 60 * 60 * 1000,
     path: "/",
   });
 }
 
 function clearTokenCookie(res) {
-  res.clearCookie("studio_token", { path: "/" });
+  const isProd = process.env.NODE_ENV === "production";
+  res.clearCookie("studio_token", {
+    path: "/",
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd,
+  });
 }
 
 // POST /auth/login

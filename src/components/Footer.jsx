@@ -96,14 +96,6 @@ export default function Footer() {
         </div>
         <p className="font-mono text-[9px] tracking-wider uppercase text-signal-gold/60">CREATED TO CREATE MOMENTS &amp; BUILD BRANDS.</p>
       </div>
-      <div className="max-w-[1400px] mx-auto pt-4 border-t border-white/5 flex justify-center">
-        <Link
-          to="/admin/login"
-          className="text-[9px] font-mono text-paper/20 hover:text-signal-gold/60 transition-colors tracking-widest uppercase"
-        >
-          ⚙ Admin
-        </Link>
-      </div>
     </footer>
   );
 }
