@@ -4,8 +4,8 @@ import api from "../services/api";
 const SettingsContext = createContext(null);
 
 const defaults = {
-  brandName: "ALL IN ALL AZHAGURAJA",
-  tagline: "Create Moments, Build Brands",
+  brandName: "Lumen & Frame",
+  tagline: "Photography, Videography & Brand Marketing",
   contactPhone: "+91 93455 52352",
   contactWhatsApp: "919345552352",
   contactEmail: "sakthiveeraputhiran50@gmail.com",

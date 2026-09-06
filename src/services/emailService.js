@@ -23,7 +23,7 @@ export async function sendBookingConfirmation(enquiry) {
     try {
       const params = {
         to_email: enquiry.email,
-        from_name: "All in All Azhaguraja Studio",
+        from_name: "Lumen & Frame Studio",
         reply_to: ADMIN_EMAIL,
         name: enquiry.name,
         phone: enquiry.phone,
@@ -43,7 +43,7 @@ export async function sendBookingConfirmation(enquiry) {
   try {
     const adminParams = {
       to_email: ADMIN_EMAIL,
-      from_name: "All in All Azhaguraja Studio",
+      from_name: "Lumen & Frame Studio",
       reply_to: enquiry.email || ADMIN_EMAIL,
       name: enquiry.name,
       phone: enquiry.phone,

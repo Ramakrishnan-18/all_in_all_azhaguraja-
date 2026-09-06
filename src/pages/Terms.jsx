@@ -4,7 +4,7 @@ import useSEO from "../hooks/useSEO";
 export default function Terms() {
   useSEO({
     title: "Terms & Conditions | Legal",
-    description: "Terms and conditions of booking and hiring All in All Azhaguraja studio services."
+    description: "Terms and conditions of booking and hiring Lumen & Frame studio services."
   });
 
   return (
@@ -17,7 +17,7 @@ export default function Terms() {
       <section className="bg-paper py-20 px-6 font-sans text-ink leading-relaxed">
         <div className="max-w-3xl mx-auto flex flex-col gap-6 text-sm text-slate-soft">
           <p>
-            Welcome to the creative studio of <strong>ALL IN ALL AZHAGURAJA</strong>. By hiring our production crew, booking a shoot date, or choosing pricing packages, you agree to comply with our standard production rules.
+            Welcome to the creative studio of <strong>Lumen & Frame</strong>. By hiring our production crew, booking a shoot date, or choosing pricing packages, you agree to comply with our standard production rules.
           </p>
           <h3 className="font-display text-lg font-bold text-ink mt-4 uppercase">1. Booking Deposits and Postponements</h3>
           <p>

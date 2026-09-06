@@ -3,8 +3,8 @@ import { useEffect } from "react";
 export default function useSEO({ title, description, keywords }) {
   useEffect(() => {
     // Title
-    const baseTitle = "ALL IN ALL AZHAGURAJA | Create Moments, Build Brands";
-    document.title = title ? `${title} | ALL IN ALL AZHAGURAJA` : baseTitle;
+    const baseTitle = "Lumen & Frame | Photography, Videography & Brand Marketing";
+    document.title = title ? `${title} | Lumen & Frame` : baseTitle;
 
     // Description
     let metaDesc = document.querySelector('meta[name="description"]');
@@ -37,7 +37,7 @@ export default function useSEO({ title, description, keywords }) {
       ogTitle.setAttribute('property', 'og:title');
       document.head.appendChild(ogTitle);
     }
-    ogTitle.setAttribute('content', title ? `${title} | ALL IN ALL AZHAGURAJA` : "ALL IN ALL AZHAGURAJA");
+    ogTitle.setAttribute('content', title ? `${title} | Lumen & Frame` : "Lumen & Frame");
 
     // OpenGraph Description
     let ogDesc = document.querySelector('meta[property="og:description"]');
@@ -46,6 +46,6 @@ export default function useSEO({ title, description, keywords }) {
       ogDesc.setAttribute('property', 'og:description');
       document.head.appendChild(ogDesc);
     }
-    ogDesc.setAttribute('content', description || "Create Moments, Build Brands - Cinematic photography and reels creator in Tirunelveli.");
+    ogDesc.setAttribute('content', description || "Photography, Videography & Brand Marketing - Cinematic photography and reels creator in Tirunelveli.");
   }, [title, description, keywords]);
 }

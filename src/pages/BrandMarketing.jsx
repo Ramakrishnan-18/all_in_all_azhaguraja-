@@ -76,7 +76,7 @@ export default function BrandMarketing() {
 
                   <div className="pt-4 border-t border-slate/5" onClick={(e) => e.stopPropagation()}>
                     <WhatsAppButton
-                      message={`Hi All in All Azhaguraja, I saw your brand marketing campaign for "${collab.brandName}" and would like to ask about launch reel rates.`}
+                      message={`Hi Lumen & Frame, I saw your brand marketing campaign for "${collab.brandName}" and would like to ask about launch reel rates.`}
                       variant="outline"
                       label="Enquire campaign rate"
                       className="text-[10px] py-2.5 font-bold tracking-wider w-full"

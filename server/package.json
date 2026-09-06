@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Backend API for All in All Azhaguraja studio site",
+  "description": "Backend API for Lumen & Frame studio site",
   "main": "src/index.js",
   "scripts": {
     "dev": "node --watch src/index.js",

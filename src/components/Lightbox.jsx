@@ -124,7 +124,7 @@ export default function Lightbox({ images, index, onClose, onNavigate }) {
 
             {title && (
               <WhatsAppButton
-                message={`Hi All in All Azhaguraja, I loved this photo "${title}" in your gallery and would like to enquire about this photoshoot style.`}
+                message={`Hi Lumen & Frame, I loved this photo "${title}" in your gallery and would like to enquire about this photoshoot style.`}
                 variant="inline"
                 label="Enquire about this photo style"
                 className="text-[10px] py-2 px-4 font-bold tracking-wider shadow-md"

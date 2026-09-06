@@ -9,7 +9,7 @@ import { Star } from "lucide-react";
 export default function Testimonials() {
   useSEO({
     title: "Client Testimonials | Reviews",
-    description: "Read reviews and testimonials from local Tirunelveli businesses and couples who worked with All in All Azhaguraja.",
+    description: "Read reviews and testimonials from local Tirunelveli businesses and couples who worked with Lumen & Frame.",
     keywords: "reviews photographer Tirunelveli, feedback reels creator, client recommendations"
   });
 

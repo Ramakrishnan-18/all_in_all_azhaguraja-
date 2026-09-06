@@ -505,7 +505,7 @@ export default function Reels() {
                 {/* WhatsApp Enquiry Button */}
                 <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                   <WhatsAppButton
-                    message={`Hi All in All Azhaguraja, I saw your vertical reel for "${activeProject.title}" and would like to enquire about similar packages.`}
+                    message={`Hi Lumen & Frame, I saw your vertical reel for "${activeProject.title}" and would like to enquire about similar packages.`}
                     variant="inline"
                     label="Enquire about this reel package"
                     className="text-[10px] py-2.5 font-bold tracking-wider w-full shadow-lg"

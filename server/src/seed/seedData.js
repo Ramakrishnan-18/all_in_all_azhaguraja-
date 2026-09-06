@@ -31,16 +31,16 @@ export const initialReels = [];
 export const initialBrandMarketing = [];
 
 export const initialTestimonials = [
-  { clientName: "Sudhakar S.", clientImage: "", review: "Azhaguraja and his crew made my bike delivery reel feel like a Hollywood movie teaser! The sound design was spot-on.", project: "Yamaha R15 Delivery Reel", rating: 5, date: "2026-06-03" },
+  { clientName: "Sudhakar S.", clientImage: "", review: "The Lumen & Frame crew made my bike delivery reel feel like a Hollywood movie teaser! The sound design was spot-on.", project: "Yamaha R15 Delivery Reel", rating: 5, date: "2026-06-03" },
   { clientName: "Meenakshi Sundaram", clientImage: "", review: "Absolutely outstanding coverage for our store launch in Palayamkottai. Within 2 days we got 40+ walk-ins.", project: "Nellai Cafe Launch Campaign", rating: 5, date: "2026-05-15" },
 ];
 
 export const initialSettings = {
-  brandName: "ALL IN ALL AZHAGURAJA",
-  tagline: "Create Moments, Build Brands",
+  brandName: "Lumen & Frame",
+  tagline: "Photography, Videography & Brand Marketing",
   contactPhone: "+91 94884 12345",
   contactWhatsApp: "919488412345",
-  contactEmail: "allinallazhaguraja@gmail.com",
+  contactEmail: "sakthiveeraputhiran50@gmail.com",
   instagramUrl: "https://instagram.com/all_in_all_azhaguraja",
   youtubeUrl: "https://youtube.com/@allinallazhaguraja",
   location: "Palayamkottai, Tirunelveli, Tamil Nadu",
@@ -50,14 +50,14 @@ export const initialSettings = {
 export const initialVideoSources = [
   {
     platform: "instagram",
-    name: "All in All Azhaguraja",
+    name: "Lumen & Frame",
     sourceUrl: "https://www.instagram.com/all_in_all_azhaguraja/",
     sourceIdentifier: "all_in_all_azhaguraja",
     isActive: true,
   },
   {
     platform: "youtube",
-    name: "All in All Azhaguraja",
+    name: "Lumen & Frame",
     sourceUrl: "https://www.youtube.com/@allinallazhaguraja",
     sourceIdentifier: "@allinallazhaguraja",
     isActive: true,

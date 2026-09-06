@@ -9,7 +9,7 @@ import useSEO from "../hooks/useSEO";
 export default function Videos() {
   useSEO({
     title: "Cinematic Videos & Reels Feed",
-    description: "Watch All in All Azhaguraja's latest reels, automotive handovers, and brand commercials in a vertically scrollable feed.",
+    description: "Watch Lumen & Frame's latest reels, automotive handovers, and brand commercials in a vertically scrollable feed.",
     keywords: "vertical reels Tirunelveli, bike delivery reels, car delivery reels, showroom handover video"
   });
 
@@ -86,7 +86,7 @@ export default function Videos() {
                     {/* WhatsApp CTA specifically for this video style */}
                     <div className="flex gap-2 pt-2 pointer-events-auto">
                       <WhatsAppButton
-                        message={`Hi All in All Azhaguraja, I saw your video "${project.title}" on your reels feed and would like to enquire about similar packages.`}
+                        message={`Hi Lumen & Frame, I saw your video "${project.title}" on your reels feed and would like to enquire about similar packages.`}
                         variant="inline"
                         label="Enquire about this style"
                         className="flex-1 text-[10px] py-2.5 font-bold tracking-wider"

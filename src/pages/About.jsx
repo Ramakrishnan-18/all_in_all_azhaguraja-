@@ -8,8 +8,8 @@ import useSEO from "../hooks/useSEO";
 export default function About() {
   useSEO({
     title: "About the Founder & Crew | Cinematic Studio",
-    description: "Learn about Azhaguraja S. and our vision to bring professional cinematic videography and vertical reels to Tirunelveli.",
-    keywords: "Azhaguraja S., reels creator Tirunelveli, photographer Tirunelveli"
+    description: "Learn about Lumen & Frame and our vision to bring professional cinematic videography and vertical reels to Tirunelveli.",
+    keywords: "Lumen & Frame, reels creator Tirunelveli, photographer Tirunelveli"
   });
 
   return (
@@ -26,12 +26,12 @@ export default function About() {
           <div className="relative aspect-[4/5] bg-slate overflow-hidden shadow-lg border border-slate/10">
             <img
               src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop"
-              alt="Azhaguraja shoot"
+              alt="Lumen & Frame studio"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-ink/10" />
             <div className="absolute bottom-6 left-6 bg-ink/90 text-white px-4 py-2 border border-signal-gold/20 font-mono text-xs">
-              Founder: Azhaguraja S.
+              Founder: Lumen & Frame
             </div>
           </div>
 
@@ -42,10 +42,10 @@ export default function About() {
               Founded to create moments and build authority brands.
             </h2>
             <p className="text-slate-soft text-sm md:text-base leading-relaxed mb-4">
-              <strong>All in All Azhaguraja</strong> was born out of a simple idea: video content in Tirunelveli should not look like basic templates. Local brands, showroom deliveries, and family milestones deserve the same cinematic grading, audio drops, and transitions that top-tier agencies produce.
+              <strong>Lumen & Frame</strong> was born out of a simple idea: video content in Tirunelveli should not look like basic templates. Local brands, showroom deliveries, and family milestones deserve the same cinematic grading, audio drops, and transitions that top-tier agencies produce.
             </p>
             <p className="text-slate-soft text-sm md:text-base leading-relaxed mb-6">
-              Our founder, <strong>Azhaguraja S.</strong>, established this studio to combine creative photography with high-energy vertical reels. We specialize in pacing, transition timing, and sound design. From R15 delivery exhausts to macro coffee pours, we translate everyday motion into professional digital content.
+              Our founder established this studio to combine creative photography with high-energy vertical reels. We specialize in pacing, transition timing, and sound design. From R15 delivery exhausts to macro coffee pours, we translate everyday motion into professional digital content.
             </p>
 
             {/* Core Values */}

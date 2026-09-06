@@ -37,8 +37,8 @@ import { InstagramIcon, YoutubeIcon } from "../components/SocialIcons";
 
 export default function Home() {
   useSEO({
-    title: "All in All Azhaguraja | Tirunelveli's Premium Photographer & Reels Creator",
-    description: "Create Moments, Build Brands. All in All Azhaguraja is Tirunelveli's premium photographer and reels creator for personal branding, showroom deliveries, and business promos.",
+    title: "Lumen & Frame — Photography, Videography & Brand Marketing in Tirunelveli",
+    description: "Lumen & Frame is Tirunelveli's premium photography and videography studio for personal branding, showroom deliveries, and business promos.",
     keywords: "Reels creator in Tirunelveli, Event videography Tirunelveli, Car delivery reels, Bike delivery reels, Photography Tirunelveli"
   });
 
@@ -256,7 +256,7 @@ export default function Home() {
 
                 <div className="pt-4 border-t border-white/5 flex items-center justify-between mt-auto">
                   <WhatsAppButton
-                    message={`Hi All in All Azhaguraja, I saw your brand campaign for "${collab.brandName}" and would like to enquiry about brand marketing reels.`}
+                    message={`Hi Lumen & Frame, I saw your brand campaign for "${collab.brandName}" and would like to enquiry about brand marketing reels.`}
                     variant="outline"
                     label="Enquire campaign rate"
                     className="text-[9px] py-2.5 font-bold tracking-wider w-full text-center"
@@ -536,7 +536,7 @@ export default function Home() {
 
                 <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
                   <WhatsAppButton
-                    message={`Hi All in All Azhaguraja, I saw your vertical reel "${currentModalReel.title}" and would like to enquiry about shoot dates.`}
+                    message={`Hi Lumen & Frame, I saw your vertical reel "${currentModalReel.title}" and would like to enquiry about shoot dates.`}
                     label="Enquire for this Reel"
                     variant="inline"
                     className="text-[10px] py-2.5 w-full font-bold tracking-wider text-center"
@@ -603,7 +603,7 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto">
           <div className="text-center max-w-xl mx-auto mb-16">
             <p className="eyebrow text-studio-blue mb-4 font-bold tracking-widest">OUR PHILOSOPHY</p>
-            <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Why All in All Azhaguraja?</h2>
+            <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Why Lumen & Frame?</h2>
             <p className="text-slate-soft text-xs mt-3 font-semibold uppercase tracking-wider">We build conversion-driven visuals that capture attention within the first 3 seconds.</p>
           </div>
 
@@ -750,7 +750,7 @@ export default function Home() {
             </Link>
             
             <WhatsAppButton
-              message="Hi All in All Azhaguraja, I'm interested in your services."
+              message="Hi Lumen & Frame, I'm interested in your services."
               variant="inline"
               className="font-bold text-xs tracking-wider bg-transparent border border-white/20 text-white hover:bg-white hover:text-ink hover:border-white"
               label="WhatsApp Enquiry"

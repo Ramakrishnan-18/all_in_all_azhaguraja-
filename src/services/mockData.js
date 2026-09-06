@@ -1,4 +1,4 @@
-// Mock database with LocalStorage persistence for ALL IN ALL AZHAGURAJA
+// Mock database with LocalStorage persistence for Lumen & Frame
 // Enables Admin dashboard CRUD changes to persist immediately on page refresh.
 
 const STORAGE_KEYS = {
@@ -83,11 +83,11 @@ const initialPackages = [
 ];
 
 const initialSettings = {
-  brandName: "ALL IN ALL AZHAGURAJA",
-  tagline: "Create Moments, Build Brands",
+  brandName: "Lumen & Frame",
+  tagline: "Photography, Videography & Brand Marketing",
   contactPhone: "+91 94884 12345",
   contactWhatsApp: "919488412345",
-  contactEmail: "allinallazhaguraja@gmail.com",
+  contactEmail: "sakthiveeraputhiran50@gmail.com",
   instagramUrl: "https://instagram.com/all_in_all_azhaguraja",
   youtubeUrl: "https://youtube.com/@allinallazhaguraja",
   location: "Palayamkottai, Tirunelveli, Tamil Nadu",
