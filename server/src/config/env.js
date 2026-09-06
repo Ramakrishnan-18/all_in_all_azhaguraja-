@@ -12,7 +12,7 @@ export const env = {
     .filter(Boolean),
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "1d",
-  maxUploadSize: Number(process.env.MAX_UPLOAD_SIZE) || 10 * 1024 * 1024,
+  maxUploadSize: Number(process.env.MAX_UPLOAD_SIZE) || 15 * 1024 * 1024,
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
     apiKey: process.env.CLOUDINARY_API_KEY || "",
