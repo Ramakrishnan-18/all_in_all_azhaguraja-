@@ -1,3 +1,5 @@
+import { cache } from "../app.js";
+
 // Generic REST controller factory for the simple resource entities.
 // Exposes public (published/enabled only) read + full admin CRUD.
 // Optionally accepts a beforeSave hook to validate/normalize payloads.
@@ -5,13 +7,20 @@ export function createResourceController(
   model,
   { publicFilter = {}, searchable = [], beforeSave = async () => ({}) } = {}
 ) {
-  const publicSelect = (doc) => doc;
+  const cacheKey = `list_${model.modelName}`;
 
   return {
-    // Public list — only published/enabled items, sorted newest first.
+    // Public list — only published/enabled items, sorted newest first. Cached 5 min.
     listPublic: async (req, res) => {
+      const cached = cache.get(cacheKey);
+      if (cached) {
+        res.setHeader("Cache-Control", "public, max-age=300");
+        return res.json(cached);
+      }
       const docs = await model.find(publicFilter).sort({ createdAt: -1 }).lean();
-      res.json(docs.map(publicSelect));
+      cache.set(cacheKey, docs, 300);
+      res.setHeader("Cache-Control", "public, max-age=300");
+      res.json(docs);
     },
 
     // Public single.
@@ -34,12 +43,15 @@ export function createResourceController(
       res.json(docs);
     },
 
+    // Admin create — invalidate cache
     create: async (req, res) => {
       const validated = await beforeSave(req.body, null, req);
       const doc = await model.create({ ...req.body, ...validated });
+      cache.del(cacheKey);
       res.status(201).json(doc);
     },
 
+    // Admin update — invalidate cache
     update: async (req, res) => {
       const validated = await beforeSave(req.body, req.params.id, req);
       const doc = await model.findByIdAndUpdate(req.params.id, { ...req.body, ...validated }, {
@@ -47,12 +59,15 @@ export function createResourceController(
         runValidators: true,
       });
       if (!doc) return res.status(404).json({ message: "Not found" });
+      cache.del(cacheKey);
       res.json(doc);
     },
 
+    // Admin delete — invalidate cache
     remove: async (req, res) => {
       const doc = await model.findByIdAndDelete(req.params.id);
       if (!doc) return res.status(404).json({ message: "Not found" });
+      cache.del(cacheKey);
       res.json({ success: true });
     },
   };

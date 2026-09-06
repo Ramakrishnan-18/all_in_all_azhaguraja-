@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ChevronDown, Camera } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 
 export default function Hero() {
-  const [settings, setSettings] = useState({ brandName: "ALL IN ALL AZHAGURAJA", tagline: "Create Moments, Build Brands" });
-
-  useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
-  }, []);
+  const settings = useSettings();
 
   return (
     <section className="relative h-screen min-h-[680px] w-full overflow-hidden bg-ink">

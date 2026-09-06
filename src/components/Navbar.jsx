@@ -2,17 +2,16 @@ import { useEffect, useState, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, Camera } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [settings, setSettings] = useState({ brandName: "ALL IN ALL AZHAGURAJA", tagline: "Create Moments, Build Brands" });
+  const settings = useSettings();
   const lastTapRef = useRef(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);

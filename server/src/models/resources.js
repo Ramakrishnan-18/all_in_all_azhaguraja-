@@ -80,7 +80,17 @@ const schemas = {
 const models = {};
 
 for (const [name, schemaDef] of Object.entries(schemas)) {
-  models[name] = mongoose.model(name, new mongoose.Schema(schemaDef, { timestamps: true }));
+  const schema = new mongoose.Schema(schemaDef, { timestamps: true });
+  if (schemaDef.enabled !== undefined) {
+    schema.index({ enabled: 1, createdAt: -1 });
+  }
+  if (schemaDef.published !== undefined) {
+    schema.index({ published: 1, createdAt: -1 });
+  }
+  if (name === "Reel") {
+    schema.index({ videoUrl: 1 }, { sparse: true });
+  }
+  models[name] = mongoose.model(name, schema);
 }
 
 export const {

@@ -1,23 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, Camera } from "lucide-react";
 import { InstagramIcon, YoutubeIcon } from "./SocialIcons";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 
 export default function Footer() {
-  const [settings, setSettings] = useState({
-    brandName: "ALL IN ALL AZHAGURAJA",
-    tagline: "Create Moments, Build Brands",
-    contactEmail: "allinallazhaguraja@gmail.com",
-    contactPhone: "+91 94884 12345",
-    location: "Palayamkottai, Tirunelveli, Tamil Nadu",
-    instagramUrl: "#",
-    youtubeUrl: "#"
-  });
-
-  useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
-  }, []);
+  const settings = useSettings();
 
   return (
     <footer className="bg-ink text-paper py-20 px-6 lg:px-10 border-t border-white/5">

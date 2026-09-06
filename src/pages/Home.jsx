@@ -31,7 +31,7 @@ import { getPackages } from "../services/packagesService";
 import { getBrandMarketing } from "../services/brandMarketingService";
 import { getReels } from "../services/reelsService";
 import { studioStats } from "../services/mockData";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 import useSEO from "../hooks/useSEO";
 import { InstagramIcon, YoutubeIcon } from "../components/SocialIcons";
 
@@ -53,13 +53,7 @@ export default function Home() {
   const reelsCarouselRef = useRef(null);
   const modalVideoRef = useRef(null);
 
-  const [settings, setSettings] = useState({
-    brandName: "ALL IN ALL AZHAGURAJA",
-    tagline: "Create Moments, Build Brands",
-    instagramUrl: "#",
-    youtubeUrl: "#",
-    contactPhone: "+91 94884 12345"
-  });
+  const settings = useSettings();
 
   const brandCarouselRef = useRef(null);
 
@@ -88,7 +82,6 @@ export default function Home() {
       })
       .catch(() => setReels([]));
 
-    getSettings().then(setSettings).catch(() => {});
   }, []);
 
   const scrollBrand = (direction) => {

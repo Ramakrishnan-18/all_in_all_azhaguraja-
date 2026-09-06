@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import ContactForm from "../components/ContactForm";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 import { InstagramIcon, YoutubeIcon } from "../components/SocialIcons";
 import WhatsAppButton from "../components/WhatsAppButton";
 import useSEO from "../hooks/useSEO";
@@ -14,18 +13,7 @@ export default function Contact() {
     keywords: "contact photographer Tirunelveli, book reels creator, Tirunelveli photography contact"
   });
 
-  const [settings, setSettings] = useState({
-    contactPhone: "+91 94884 12345",
-    contactEmail: "allinallazhaguraja@gmail.com",
-    location: "Palayamkottai, Tirunelveli, Tamil Nadu",
-    workingHours: "10:00 AM - 8:00 PM",
-    instagramUrl: "#",
-    youtubeUrl: "#"
-  });
-
-  useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
-  }, []);
+  const settings = useSettings();
 
   return (
     <>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { submitEnquiry } from "../services/enquiryService";
 import { sendBookingConfirmation } from "../services/emailService";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 import { CheckCircle2, AlertCircle, Phone } from "lucide-react";
 import { InstagramIcon, YoutubeIcon } from "./SocialIcons";
 import WhatsAppButton from "./WhatsAppButton";
@@ -33,10 +33,9 @@ export default function ContactForm({ defaultService = "", defaultPackage = "" }
   
   const [status, setStatus] = useState(null); // "success" | "error" | null
   const [emailSent, setEmailSent] = useState(false);
-  const [settings, setSettings] = useState({ contactPhone: "+91 94884 12345", instagramUrl: "#", youtubeUrl: "#" });
+  const settings = useSettings();
 
   useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
     if (defaultService) setValue("service", defaultService);
     if (defaultPackage) setValue("package", defaultPackage);
   }, [defaultService, defaultPackage, setValue]);

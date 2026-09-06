@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
-import { getSettings } from "../services/settingsService";
+import { useSettings } from "../context/SettingsContext";
 
 export default function WhatsAppButton({
   packageName = "",
@@ -10,11 +9,7 @@ export default function WhatsAppButton({
   variant = "inline", // inline, sticky, outline, icon
   className = ""
 }) {
-  const [settings, setSettings] = useState({ contactWhatsApp: "919488412345" });
-
-  useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
-  }, []);
+  const settings = useSettings();
 
   // Construct message template
   let finalMessage = message;
