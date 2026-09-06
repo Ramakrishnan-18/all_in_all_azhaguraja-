@@ -102,7 +102,12 @@ export default function Reels() {
 
   // Touch swipe support for lightbox
   const touchStartY = useRef(0);
-  const handleTouchStart = (e) => { touchStartY.current = e.touches[0].clientY; };
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+  const handleTouchMove = (e) => {
+    e.preventDefault();
+  };
   const handleTouchEnd = (e) => {
     const diff = touchStartY.current - e.changedTouches[0].clientY;
     if (Math.abs(diff) > 30) {
@@ -394,7 +399,9 @@ export default function Reels() {
                     {/* Swipe capture overlay - sits on top of video */}
                     <div
                       className="absolute inset-0 z-20"
+                      style={{ touchAction: "none" }}
                       onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
                       onTouchEnd={handleTouchEnd}
                       onClick={() => setIsPlaying((p) => !p)}
                     />
