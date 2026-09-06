@@ -1,3 +1,20 @@
+@import "@fontsource/fraunces/300.css";
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/700.css";
+@import "@fontsource/fraunces/300-italic.css";
+@import "@fontsource/fraunces/400-italic.css";
+@import "@fontsource/fraunces/500-italic.css";
+@import "@fontsource/fraunces/600-italic.css";
+@import "@fontsource/fraunces/700-italic.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+@import "@fontsource/manrope/800.css";
+@import "@fontsource/space-mono/400.css";
+@import "@fontsource/space-mono/700.css";
 @import "tailwindcss";
 
 @theme {
