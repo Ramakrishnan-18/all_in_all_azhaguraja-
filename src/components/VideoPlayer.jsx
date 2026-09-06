@@ -151,6 +151,7 @@ export default function VideoPlayer({ src, poster, title = "" }) {
         poster={poster}
         muted={muted}
         playsInline
+        crossOrigin="anonymous"
         className="w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-black/10 opacity-100 group-hover:opacity-100 transition-opacity" />
