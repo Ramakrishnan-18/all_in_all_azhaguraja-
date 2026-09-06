@@ -181,7 +181,7 @@ export default function AdminPhotos() {
                   <span className="text-[11px] font-bold text-slate-soft tracking-wide">
                     {uploading ? "Uploading image…" : "Click to upload from your device"}
                   </span>
-                  <span className="text-[10px] text-slate-soft/60 font-mono">PNG, JPG, WEBP — max 5MB</span>
+                  <span className="text-[10px] text-slate-soft/60 font-mono">PNG, JPG, WEBP — max 10MB</span>
                 </button>
               )}
               {uploadErr && (
