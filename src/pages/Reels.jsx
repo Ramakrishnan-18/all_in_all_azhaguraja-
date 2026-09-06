@@ -350,8 +350,6 @@ export default function Reels() {
             {/* Vertical 9:16 Reel Player Container */}
             <div
               onClick={(e) => e.stopPropagation()}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
               className="relative w-full max-w-[390px] h-[85vh] max-h-[760px] aspect-[9/16] bg-ink border border-white/15 shadow-2xl overflow-hidden rounded-md flex flex-col justify-between cursor-default"
             >
               {/* Top Bar Header */}
@@ -391,10 +389,17 @@ export default function Reels() {
                       muted={isMuted}
                       crossOrigin="anonymous"
                       onTimeUpdate={handleTimeUpdate}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover pointer-events-none"
+                    />
+                    {/* Swipe capture overlay - sits on top of video */}
+                    <div
+                      className="absolute inset-0 z-20"
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                      onClick={() => setIsPlaying((p) => !p)}
                     />
                     {!isPlaying && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none z-10">
                         <div className="w-16 h-16 rounded-full bg-black/70 text-signal-gold border border-signal-gold/40 flex items-center justify-center shadow-2xl">
                           <Play size={26} className="fill-current translate-x-0.5" />
                         </div>
