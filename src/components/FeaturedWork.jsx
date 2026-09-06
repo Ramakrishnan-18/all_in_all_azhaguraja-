@@ -79,7 +79,7 @@ export default function FeaturedWork() {
           <div className="text-center py-20 border border-dashed border-slate/15 bg-white">
             <Camera size={40} className="mx-auto mb-4 text-slate/30" />
             <p className="text-slate-soft">No photos uploaded yet.</p>
-            <Link to="/admin/photos" className="text-xs text-studio-blue mt-2 inline-block hover:underline">Upload photos from admin</Link>
+          
           </div>
         ) : (
           <div
