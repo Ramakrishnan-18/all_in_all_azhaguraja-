@@ -105,7 +105,7 @@ export default function Reels() {
   const handleTouchStart = (e) => { touchStartY.current = e.touches[0].clientY; };
   const handleTouchEnd = (e) => {
     const diff = touchStartY.current - e.changedTouches[0].clientY;
-    if (Math.abs(diff) > 50) {
+    if (Math.abs(diff) > 30) {
       if (diff > 0) handleNextReel();
       else handlePrevReel();
     }
@@ -322,8 +322,6 @@ export default function Reels() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleCloseReel}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
             className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg flex items-center justify-center p-3 md:p-6 cursor-zoom-out select-none"
           >
             {/* Prev / Next Navigation buttons on desktop */}
@@ -352,6 +350,8 @@ export default function Reels() {
             {/* Vertical 9:16 Reel Player Container */}
             <div
               onClick={(e) => e.stopPropagation()}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
               className="relative w-full max-w-[390px] h-[85vh] max-h-[760px] aspect-[9/16] bg-ink border border-white/15 shadow-2xl overflow-hidden rounded-md flex flex-col justify-between cursor-default"
             >
               {/* Top Bar Header */}
