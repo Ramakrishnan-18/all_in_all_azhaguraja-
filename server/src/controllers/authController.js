@@ -2,13 +2,32 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { env } from "../config/env.js";
 import { AdminUser } from "../models/AdminUser.js";
+import { TokenBlacklist } from "../models/TokenBlacklist.js";
 
-const tokenBlacklist = new Set();
 const MAX_LOGIN_FAILURES = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;
 
-export function isTokenBlacklisted(jti) {
-  return tokenBlacklist.has(jti);
+export async function isTokenBlacklisted(jti) {
+  const entry = await TokenBlacklist.findOne({ jti }).lean();
+  return !!entry;
+}
+
+async function blacklistToken(jti, expiresAt) {
+  try {
+    await TokenBlacklist.findOneAndUpdate(
+      { jti },
+      { jti, expiresAt },
+      { upsert: true, lean: true }
+    );
+  } catch (err) {
+    console.error("Failed to blacklist token:", err.message);
+  }
+}
+
+function extractToken(req) {
+  const header = req.headers.authorization || "";
+  const fromHeader = header.startsWith("Bearer ") ? header.slice(7) : null;
+  return fromHeader || req.cookies?.studio_token;
 }
 
 function signToken(admin) {
@@ -79,12 +98,15 @@ export async function login(req, res) {
 
 // POST /auth/logout
 export async function logout(req, res) {
-  const token = req.cookies?.studio_token;
+  const token = extractToken(req);
 
   if (token) {
     try {
       const payload = jwt.verify(token, env.jwtSecret);
-      if (payload.jti) tokenBlacklist.add(payload.jti);
+      if (payload.jti) {
+        const expiresAt = new Date(payload.exp * 1000);
+        await blacklistToken(payload.jti, expiresAt);
+      }
     } catch {}
   }
 
@@ -181,11 +203,14 @@ export async function changePassword(req, res) {
   await admin.save();
 
   // Invalidate old token
-  const token = req.cookies?.studio_token;
+  const token = extractToken(req);
   if (token) {
     try {
       const payload = jwt.verify(token, env.jwtSecret);
-      if (payload.jti) tokenBlacklist.add(payload.jti);
+      if (payload.jti) {
+        const expiresAt = new Date(payload.exp * 1000);
+        await blacklistToken(payload.jti, expiresAt);
+      }
     } catch {}
   }
   clearTokenCookie(res);

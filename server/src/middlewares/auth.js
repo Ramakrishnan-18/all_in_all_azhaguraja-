@@ -15,7 +15,7 @@ export async function protect(req, res, next) {
   try {
     const payload = jwt.verify(token, env.jwtSecret);
 
-    if (payload.jti && isTokenBlacklisted(payload.jti)) {
+    if (payload.jti && await isTokenBlacklisted(payload.jti)) {
       return res.status(401).json({ message: "Token has been revoked" });
     }
 

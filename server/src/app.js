@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { uploadDir } from "./middlewares/upload.js";
 import { sanitizeInput } from "./middlewares/sanitize.js";
+import { csrfGenerate, csrfValidate } from "./middlewares/csrf.js";
 
 import authRoutes from "./routes/auth.js";
 import resourceRoutes from "./routes/resources.js";
@@ -23,9 +24,24 @@ const app = express();
 // In-memory cache (5 min default TTL, check every 10 min)
 export const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 
+// CSP directives — allow only trusted sources
+const cspDirectives = {
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+  imgSrc: ["'self'", "data:", "blob:", "res.cloudinary.com", "images.unsplash.com", "img.youtube.com"],
+  fontSrc: ["'self'", "fonts.gstatic.com"],
+  connectSrc: ["'self'", "res.cloudinary.com", "api.cloudinary.com"],
+  mediaSrc: ["'self'", "blob:", "res.cloudinary.com"],
+  objectSrc: ["'none'"],
+  frameAncestors: ["'none'"],
+  baseUri: ["'self'"],
+  formAction: ["'self'"],
+};
+
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: false,
+  contentSecurityPolicy: { directives: cspDirectives },
   crossOriginEmbedderPolicy: false,
 }));
 app.use(compression());
@@ -33,6 +49,7 @@ app.use(
   cors({
     origin: env.corsOrigins.length ? env.corsOrigins : false,
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
   })
 );
 
@@ -46,20 +63,34 @@ const globalLimiter = rateLimit({
 });
 app.use("/api", globalLimiter);
 
-// Stricter limiter for auth endpoints: 10 per 15 min
+// Stricter limiter for auth endpoints: 5 per 15 min (per-IP)
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 5,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { message: "Too many login attempts. Please try again later." },
+  keyGenerator: (req) => req.ip,
+  message: { message: "Too many login attempts. Please try again after 15 minutes." },
 });
 app.use("/api/login", authLimiter);
+
+// Password change limiter: 3 per 15 min
+const passwordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many password change attempts. Please try again later." },
+});
 
 app.use(cookieParser());
 app.use(sanitizeInput);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
+
+// CSRF: generate token on GET, validate on POST/PUT/PATCH/DELETE
+app.use(csrfGenerate);
+app.use(csrfValidate);
 
 // Serve uploaded media statically with cache headers
 app.use("/uploads", (req, res, next) => {

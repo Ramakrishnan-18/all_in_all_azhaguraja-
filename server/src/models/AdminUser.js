@@ -25,6 +25,8 @@ adminUserSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.passwordHash;
   delete obj.__v;
+  delete obj.loginFailures;
+  delete obj.lockUntil;
   return obj;
 };
 
