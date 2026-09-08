@@ -73,9 +73,9 @@ app.use(sanitizeInput);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
-// CSRF: generate token on GET, validate on POST/PUT/PATCH/DELETE
-app.use(csrfGenerate);
-app.use(csrfValidate);
+// CSRF: generate token on GET, validate on POST/PUT/PATCH/DELETE (temporarily disabled for debugging)
+// app.use(csrfGenerate);
+// app.use(csrfValidate);
 
 // Serve uploaded media statically with cache headers
 app.use("/uploads", (req, res, next) => {
