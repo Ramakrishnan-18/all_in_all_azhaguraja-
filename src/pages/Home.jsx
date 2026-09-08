@@ -525,6 +525,25 @@ export default function Home() {
                   />
                 </div>
 
+                {/* Mobile prev/next row */}
+                {reels.length > 1 && (
+                  <div className="flex md:hidden items-center justify-center gap-3 pb-1" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={handlePrevReel}
+                      className="px-4 py-1.5 bg-white/15 border border-white/20 text-white text-[10px] font-bold tracking-wider hover:bg-signal-gold hover:text-ink transition-all cursor-pointer"
+                    >
+                      ← Prev
+                    </button>
+                    <span className="text-[10px] font-mono text-paper/50">{activeReelIndex + 1}/{reels.length}</span>
+                    <button
+                      onClick={handleNextReel}
+                      className="px-4 py-1.5 bg-white/15 border border-white/20 text-white text-[10px] font-bold tracking-wider hover:bg-signal-gold hover:text-ink transition-all cursor-pointer"
+                    >
+                      Next →
+                    </button>
+                  </div>
+                )}
+
                 <div>
                   <h3 className="font-display text-base md:text-lg font-bold text-white leading-snug drop-shadow-md">
                     {currentModalReel.title}
