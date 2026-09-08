@@ -88,6 +88,7 @@ export default function Reels() {
     if (activeReelIndex !== null && filteredReels.length > 0) {
       setActiveReelIndex((prev) => (prev + 1) % filteredReels.length);
       setIsPlaying(true);
+      setIsMuted(true);
       setProgress(0);
     }
   }, [activeReelIndex, filteredReels.length]);
@@ -96,6 +97,7 @@ export default function Reels() {
     if (activeReelIndex !== null && filteredReels.length > 0) {
       setActiveReelIndex((prev) => (prev - 1 + filteredReels.length) % filteredReels.length);
       setIsPlaying(true);
+      setIsMuted(true);
       setProgress(0);
     }
   }, [activeReelIndex, filteredReels.length]);
@@ -122,8 +124,14 @@ export default function Reels() {
 
     const onKeyDown = (e) => {
       if (e.key === "Escape") handleCloseReel();
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") handleNextReel();
-      if (e.key === "ArrowUp" || e.key === "ArrowLeft") handlePrevReel();
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault();
+        handleNextReel();
+      }
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        handlePrevReel();
+      }
       if (e.key === " ") {
         e.preventDefault();
         setIsPlaying((p) => !p);
@@ -385,6 +393,7 @@ export default function Reels() {
                 {videoSrc ? (
                   <>
                     <video
+                      key={activeReelIndex}
                       ref={videoRef}
                       src={videoSrc}
                       poster={activeProject?.poster}
@@ -505,7 +514,7 @@ export default function Reels() {
                 {/* WhatsApp Enquiry Button */}
                 <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                   <WhatsAppButton
-                    message={`Hi Lumen & Frame, I saw your vertical reel for "${activeProject.title}" and would like to enquire about similar packages.`}
+                    message={`Hi All in All Azhaguraja, I saw your vertical reel for "${activeProject.title}" and would like to enquire about similar packages.`}
                     variant="inline"
                     label="Enquire about this reel package"
                     className="text-[10px] py-2.5 font-bold tracking-wider w-full shadow-lg"

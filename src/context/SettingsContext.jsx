@@ -4,8 +4,8 @@ import api from "../services/api";
 const SettingsContext = createContext(null);
 
 const defaults = {
-  brandName: "Lumen & Frame",
-  tagline: "Photography, Videography & Brand Marketing",
+  brandName: "ALL IN ALL AZHAGURAJA",
+  tagline: "Create Moments, Build Brands",
   contactPhone: "+91 93455 52352",
   contactWhatsApp: "919345552352",
   contactEmail: "sakthiveeraputhiran50@gmail.com",
@@ -20,7 +20,12 @@ export function SettingsProvider({ children }) {
 
   useEffect(() => {
     api.get("/settings")
-      .then(({ data }) => setSettings({ ...defaults, ...data }))
+      .then(({ data }) => {
+        if (data && data.brandName && data.brandName !== defaults.brandName) {
+          data.brandName = defaults.brandName;
+        }
+        setSettings({ ...defaults, ...data });
+      })
       .catch(() => {});
   }, []);
 

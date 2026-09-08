@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import useSEO from "../hooks/useSEO";
 import "./NotFound.css";
 
 export default function NotFound() {
+  useSEO({ title: "Page Not Found | 404" });
+
   return (
     <div className="nf-wrapper">
       <p className="nf-eyebrow">404</p>

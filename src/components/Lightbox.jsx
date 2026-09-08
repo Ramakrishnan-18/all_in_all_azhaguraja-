@@ -1,17 +1,26 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import "./Lightbox.css";
 
 export default function Lightbox({ images, index, onClose, onNavigate }) {
+  const indexRef = useRef(index);
+  indexRef.current = index;
+
   const handleKey = useCallback(
     (e) => {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") onNavigate((index + 1) % images.length);
-      if (e.key === "ArrowLeft") onNavigate((index - 1 + images.length) % images.length);
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        onNavigate((indexRef.current + 1) % images.length);
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        onNavigate((indexRef.current - 1 + images.length) % images.length);
+      }
     },
-    [index, images?.length, onClose, onNavigate]
+    [images?.length, onClose, onNavigate]
   );
 
   useEffect(() => {
@@ -124,7 +133,7 @@ export default function Lightbox({ images, index, onClose, onNavigate }) {
 
             {title && (
               <WhatsAppButton
-                message={`Hi Lumen & Frame, I loved this photo "${title}" in your gallery and would like to enquire about this photoshoot style.`}
+                message={`Hi All in All Azhaguraja, I loved this photo "${title}" in your gallery and would like to enquire about this photoshoot style.`}
                 variant="inline"
                 label="Enquire about this photo style"
                 className="text-[10px] py-2 px-4 font-bold tracking-wider shadow-md"
