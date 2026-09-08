@@ -24,24 +24,9 @@ const app = express();
 // In-memory cache (5 min default TTL, check every 10 min)
 export const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 
-// CSP directives — allow only trusted sources
-const cspDirectives = {
-  defaultSrc: ["'self'"],
-  scriptSrc: ["'self'"],
-  styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
-  imgSrc: ["'self'", "data:", "blob:", "res.cloudinary.com", "images.unsplash.com", "img.youtube.com"],
-  fontSrc: ["'self'", "fonts.gstatic.com"],
-  connectSrc: ["'self'", "res.cloudinary.com", "api.cloudinary.com"],
-  mediaSrc: ["'self'", "blob:", "res.cloudinary.com"],
-  objectSrc: ["'none'"],
-  frameAncestors: ["'none'"],
-  baseUri: ["'self'"],
-  formAction: ["'self'"],
-};
-
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: { directives: cspDirectives },
+  contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
 }));
 app.use(compression());
