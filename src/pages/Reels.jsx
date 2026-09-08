@@ -340,7 +340,7 @@ export default function Reels() {
             {/* Prev / Next Navigation buttons on desktop */}
             {filteredReels.length > 1 && (
               <div
-                className="flex flex-col gap-4 absolute right-3 md:right-6 lg:right-12 z-30"
+                className="hidden md:flex flex-col gap-4 absolute right-3 md:right-6 lg:right-12 z-30"
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
@@ -390,23 +390,6 @@ export default function Reels() {
                 className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden cursor-pointer"
                 onClick={() => setIsPlaying((p) => !p)}
               >
-                {/* Mobile prev/next buttons - left/right sides */}
-                {filteredReels.length > 1 && (
-                  <>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handlePrevReel(); }}
-                      className="md:hidden absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/50 border border-white/20 text-white hover:text-signal-gold hover:border-signal-gold flex items-center justify-center transition-all cursor-pointer backdrop-blur-sm shadow-lg active:scale-90"
-                    >
-                      <ChevronUp size={20} />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleNextReel(); }}
-                      className="md:hidden absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/50 border border-white/20 text-white hover:text-signal-gold hover:border-signal-gold flex items-center justify-center transition-all cursor-pointer backdrop-blur-sm shadow-lg active:scale-90"
-                    >
-                      <ChevronDown size={20} />
-                    </button>
-                  </>
-                )}
                 {videoSrc ? (
                   <>
                     <video
@@ -449,6 +432,24 @@ export default function Reels() {
 
               {/* Bottom Video Controls & Info Overlay */}
               <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent z-30 flex flex-col gap-3">
+                {/* Mobile prev/next row */}
+                {filteredReels.length > 1 && (
+                  <div className="flex md:hidden items-center justify-center gap-3 pb-1" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={handlePrevReel}
+                      className="px-4 py-1.5 bg-white/15 border border-white/20 text-white text-[10px] font-bold tracking-wider hover:bg-signal-gold hover:text-ink transition-all cursor-pointer"
+                    >
+                      ← Prev
+                    </button>
+                    <span className="text-[10px] font-mono text-paper/50">{activeReelIndex + 1}/{filteredReels.length}</span>
+                    <button
+                      onClick={handleNextReel}
+                      className="px-4 py-1.5 bg-white/15 border border-white/20 text-white text-[10px] font-bold tracking-wider hover:bg-signal-gold hover:text-ink transition-all cursor-pointer"
+                    >
+                      Next →
+                    </button>
+                  </div>
+                )}
                 {/* Progress bar (for native video) */}
                 {videoSrc && (
                   <div
