@@ -23,7 +23,6 @@ import Hero from "../components/Hero";
 import FeaturedWork from "../components/FeaturedWork";
 import VideoPlayer from "../components/VideoPlayer";
 import WhatsAppButton from "../components/WhatsAppButton";
-import { getServices } from "../services/servicesService";
 import { getPackages } from "../services/packagesService";
 import { getBrandMarketing } from "../services/brandMarketingService";
 import { getReels } from "../services/reelsService";
@@ -39,7 +38,6 @@ export default function Home() {
     keywords: "Reels creator in Tirunelveli, Event videography Tirunelveli, Car delivery reels, Bike delivery reels, Photography Tirunelveli"
   });
 
-  const [services, setServices] = useState([]);
   const [packages, setPackages] = useState([]);
   const [brandCollaborations, setBrandCollaborations] = useState([]);
   const [reels, setReels] = useState([]);
@@ -55,7 +53,6 @@ export default function Home() {
   const brandCarouselRef = useRef(null);
 
   useEffect(() => {
-    getServices().then((data) => setServices(data.slice(0, 3))).catch(() => {});
     getPackages().then((data) => setPackages(data.slice(0, 3))).catch(() => {});
     getBrandMarketing()
       .then((data) => {
@@ -574,54 +571,7 @@ export default function Home() {
       </AnimatePresence>
 
 
-      {/* 5. SERVICES SECTION */}
-      {/* 5A. MAIN SERVICES PREVIEW */}
-      <section className="bg-ink py-24 px-6 lg:px-10 text-paper">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <div>
-              <p className="eyebrow text-signal-gold mb-4 font-bold tracking-widest">WHAT WE DO</p>
-              <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tight">Our Specialties</h2>
-            </div>
-            <Link to="/services" className="eyebrow inline-flex items-center gap-2 text-signal-gold border-b border-signal-gold pb-1 hover:gap-3 transition-all font-bold text-xs tracking-wider">
-              View All Services &amp; Rates <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.length > 0 ? (
-              services.map((s) => (
-                <div key={s.id} className="bg-slate border border-white/5 p-8 flex flex-col justify-between hover:border-signal-gold/40 transition-colors group">
-                  <div>
-                    <div className="overflow-hidden aspect-video bg-ink mb-6 relative">
-                      <img src={s.image} alt={s.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-                      <div className="absolute inset-0 bg-ink/30" />
-                    </div>
-                    <h3 className="font-display text-2xl font-bold mb-3 group-hover:text-signal-gold transition-colors">{s.title}</h3>
-                    <p className="text-paper/60 text-sm leading-relaxed mb-6">{s.description}</p>
-                    <ul className="flex flex-col gap-2 mb-8">
-                      {s.features.slice(0, 3).map((f, i) => (
-                        <li key={i} className="text-xs text-paper/70 flex items-center gap-2">
-                          <Check size={12} className="text-signal-gold shrink-0" /> {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-auto">
-                    <div>
-                      <p className="text-[10px] eyebrow text-paper/40 font-bold">STARTING AT</p>
-                      <p className="text-lg font-bold text-signal-gold font-sans">₹{s.startingPrice.toLocaleString("en-IN")}</p>
-                    </div>
-                    <WhatsAppButton serviceName={s.title} label="Enquire" variant="outline" className="text-[10px] px-4 py-2.5 font-bold tracking-wider" />
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-3 text-center py-12 text-paper/50">Loading services...</div>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* 5. SERVICES SECTION — Packages shown as Services */}
 
       {/* 5B. WHY CHOOSE US */}
       <section className="bg-paper py-24 px-6 lg:px-10 border-b border-slate/10">
@@ -651,16 +601,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5C. PACKAGES PREVIEW */}
+      {/* 5C. OUR SERVICES (Packages) */}
       <section className="bg-mist/30 py-24 px-6 lg:px-10 border-b border-slate/10">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
-              <p className="eyebrow text-studio-blue mb-4 font-bold tracking-widest">PRICING PLANS</p>
-              <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tight">Packages Showcase</h2>
+              <p className="eyebrow text-studio-blue mb-4 font-bold tracking-widest">WHAT WE OFFER</p>
+              <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tight">Our Services</h2>
             </div>
             <Link to="/services" className="eyebrow inline-flex items-center gap-2 text-studio-blue border-b border-studio-blue pb-1 hover:gap-3 transition-all font-bold text-xs tracking-wider">
-              View All Packages <ArrowRight size={14} />
+              View All Services <ArrowRight size={14} />
             </Link>
           </div>
 
@@ -688,12 +638,12 @@ export default function Home() {
                     to={`/contact?service=${encodeURIComponent(pkg.category)}&package=${encodeURIComponent(pkg.packageName)}`}
                     className="eyebrow block text-center bg-ink text-paper py-3.5 hover:bg-studio-blue transition-colors font-bold text-xs tracking-wider mt-6"
                   >
-                    Choose Package
+                    Enquire Now
                   </Link>
                 </div>
               ))
             ) : (
-              <div className="col-span-3 text-center py-12 text-slate-soft/50">Loading packages...</div>
+              <div className="col-span-3 text-center py-12 text-slate-soft/50">Loading services...</div>
             )}
           </div>
         </div>
