@@ -120,8 +120,8 @@ const resources = {
   },
 };
 
-for (const [route, { model, publicFilter, searchable, beforeSave }] of Object.entries(resources)) {
-  const c = createResourceController(model, { publicFilter, searchable, beforeSave });
+for (const [route, { model, publicFilter, searchable, beforeSave, sortOrder }] of Object.entries(resources)) {
+  const c = createResourceController(model, { publicFilter, searchable, beforeSave, sortOrder });
 
   // Public
   router.get(`/${route}`, asyncHandler(c.listPublic));
