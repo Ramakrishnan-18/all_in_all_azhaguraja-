@@ -1,32 +1,30 @@
-import { _db } from "./mockData";
+import api from "./api";
 
 export async function getPackages() {
-  return _db.getPackages().filter((p) => p.enabled !== false);
+  const { data } = await api.get("/packages");
+  const list = data.value || data.data || data || [];
+  return list.map((p) => ({ ...p, id: p._id }));
 }
 
 export async function adminGetPackages() {
-  return _db.getPackages();
+  const { data } = await api.get("/admin/packages");
+  const list = data.value || data.data || data || [];
+  return list.map((p) => ({ ...p, id: p._id }));
 }
 
 export async function adminSavePackage(pkg) {
-  const all = _db.getPackages();
-  if (pkg.id) {
-    const idx = all.findIndex((p) => p.id === pkg.id);
-    if (idx !== -1) {
-      all[idx] = { ...all[idx], ...pkg };
-    }
-  } else {
-    pkg.id = "pk" + Date.now();
-    pkg.enabled = true;
-    all.push(pkg);
+  const id = pkg._id || pkg.id;
+  if (id) {
+    const { data } = await api.patch(`/admin/packages/${id}`, pkg);
+    const saved = data.value || data.data || data;
+    return { ...saved, id: saved._id };
   }
-  _db.setPackages(all);
-  return pkg;
+  const { data } = await api.post("/admin/packages", pkg);
+  const saved = data.value || data.data || data;
+  return { ...saved, id: saved._id };
 }
 
 export async function adminDeletePackage(id) {
-  const all = _db.getPackages();
-  const next = all.filter((p) => p.id !== id);
-  _db.setPackages(next);
+  await api.delete(`/admin/packages/${id}`);
   return true;
 }
