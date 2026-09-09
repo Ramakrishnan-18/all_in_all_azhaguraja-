@@ -91,23 +91,27 @@ const resources = {
     model: Photo,
     publicFilter: { published: true },
     searchable: ["title", "category", "location"],
+    sortOrder: -1,
   },
   reels: {
     model: Reel,
     publicFilter: { published: true },
     searchable: ["title", "category", "client", "location"],
     beforeSave: validateReelPayload,
+    sortOrder: -1,
   },
   projects: {
     model: Project,
     publicFilter: { published: true },
     searchable: ["title", "category", "client"],
+    sortOrder: -1,
   },
 
   "brand-marketing": {
     model: BrandMarketing,
     publicFilter: { enabled: true },
     searchable: ["brandName", "tagline"],
+    sortOrder: -1,
   },
   testimonials: {
     model: Testimonial,

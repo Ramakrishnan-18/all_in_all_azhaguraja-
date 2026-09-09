@@ -3,12 +3,12 @@
 // Optionally accepts a beforeSave hook to validate/normalize payloads.
 export function createResourceController(
   model,
-  { publicFilter = {}, searchable = [], beforeSave = async () => ({}) } = {}
+  { publicFilter = {}, searchable = [], beforeSave = async () => ({}), sortOrder = 1 } = {}
 ) {
   return {
-    // Public list — only published/enabled items, sorted oldest first.
+    // Public list — only published/enabled items.
     listPublic: async (req, res) => {
-      const docs = await model.find(publicFilter).sort({ _id: 1 }).lean();
+      const docs = await model.find(publicFilter).sort({ _id: sortOrder }).lean();
       res.json(docs);
     },
 
@@ -28,7 +28,7 @@ export function createResourceController(
         const regex = new RegExp(safeSearch, "i");
         query.$or = searchable.map((f) => ({ [f]: regex }));
       }
-      const docs = await model.find(query).sort({ _id: 1 }).lean();
+      const docs = await model.find(query).sort({ _id: sortOrder }).lean();
       res.json(docs);
     },
 
