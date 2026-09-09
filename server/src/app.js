@@ -18,6 +18,7 @@ import videoSourceRoutes from "./routes/videoSources.js";
 import mediaRoutes from "./routes/media.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
@@ -30,7 +31,7 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "blob:", "https://images.unsplash.com", "https://img.youtube.com", "https://res.cloudinary.com"],
       fontSrc: ["'self'"],
       frameSrc: ["https://www.youtube.com", "https://player.vimeo.com", "https://www.instagram.com"],
-      connectSrc: ["'self'", "https://all-in-all-azhaguraja.onrender.com", "https://api.cloudinary.com", "https://api.emailjs.com"],
+      connectSrc: ["'self'", "https://all-in-all-azhaguraja.onrender.com", "https://all-in-all-azhaguraja-5d9j.onrender.com", "https://*.onrender.com", "https://api.cloudinary.com", "https://api.emailjs.com"],
       mediaSrc: ["'self'", "https://res.cloudinary.com", "https://www.youtube.com", "https://player.vimeo.com"],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
