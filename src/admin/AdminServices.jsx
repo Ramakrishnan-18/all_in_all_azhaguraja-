@@ -94,12 +94,17 @@ export default function AdminServices() {
       description: serviceDescription,
       image: serviceImage,
       features,
-      startingPrice: Number(serviceStartingPrice)
+      startingPrice: Number(serviceStartingPrice),
+      enabled: editingServiceId === "new" ? true : undefined,
     };
 
-    await adminSaveService(payload);
-    setEditingServiceId(null);
-    loadData();
+    try {
+      await adminSaveService(payload);
+      setEditingServiceId(null);
+      loadData();
+    } catch (err) {
+      alert(err?.response?.data?.message || "Failed to save service. Please try again.");
+    }
   };
 
   const handleDeleteService = async (id) => {
@@ -143,12 +148,17 @@ export default function AdminServices() {
       category: pkgCategory,
       packageName: pkgName,
       price: Number(pkgPrice),
-      features
+      features,
+      enabled: editingPkgId === "new" ? true : undefined,
     };
 
-    await adminSavePackage(payload);
-    setEditingPkgId(null);
-    loadData();
+    try {
+      await adminSavePackage(payload);
+      setEditingPkgId(null);
+      loadData();
+    } catch (err) {
+      alert(err?.response?.data?.message || "Failed to save package. Please try again.");
+    }
   };
 
   const handleDeletePkg = async (id) => {
