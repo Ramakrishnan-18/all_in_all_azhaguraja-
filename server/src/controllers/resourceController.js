@@ -6,9 +6,9 @@ export function createResourceController(
   { publicFilter = {}, searchable = [], beforeSave = async () => ({}) } = {}
 ) {
   return {
-    // Public list — only published/enabled items, sorted newest first.
+    // Public list — only published/enabled items, sorted oldest first.
     listPublic: async (req, res) => {
-      const docs = await model.find(publicFilter).sort({ _id: -1 }).lean();
+      const docs = await model.find(publicFilter).sort({ _id: 1 }).lean();
       res.json(docs);
     },
 
@@ -28,7 +28,7 @@ export function createResourceController(
         const regex = new RegExp(safeSearch, "i");
         query.$or = searchable.map((f) => ({ [f]: regex }));
       }
-      const docs = await model.find(query).sort({ _id: -1 }).lean();
+      const docs = await model.find(query).sort({ _id: 1 }).lean();
       res.json(docs);
     },
 
