@@ -9,9 +9,6 @@ export async function login(email, password) {
 }
 
 export async function getCurrentAdmin() {
-  if (!localStorage.getItem("studio_admin_token")) {
-    throw new Error("No token");
-  }
   const { data } = await api.get("/me");
   currentAdmin = data;
   return data;
