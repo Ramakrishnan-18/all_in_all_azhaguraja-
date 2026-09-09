@@ -3,7 +3,6 @@ import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
-import NodeCache from "node-cache";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { uploadDir } from "./middlewares/upload.js";
@@ -19,9 +18,6 @@ import videoSourceRoutes from "./routes/videoSources.js";
 import mediaRoutes from "./routes/media.js";
 
 const app = express();
-
-// In-memory cache (5 min default TTL, check every 10 min)
-export const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },

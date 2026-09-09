@@ -1,18 +1,13 @@
 import { Setting } from "../models/Setting.js";
-import { cache } from "../app.js";
 
-// GET /settings (public) — cached 5 min
+// GET /settings (public)
 export async function getSettings(req, res) {
-  const cached = cache.get("settings");
-  if (cached) return res.json(cached);
-
   const settings = await Setting.findOne().lean();
   const data = settings || {};
-  cache.set("settings", data, 300);
   return res.json(data);
 }
 
-// PATCH /admin/settings — invalidate cache
+// PATCH /admin/settings
 export async function updateSettings(req, res) {
   let settings = await Setting.findOne();
   if (!settings) {
@@ -21,6 +16,5 @@ export async function updateSettings(req, res) {
     Object.assign(settings, req.body);
     await settings.save();
   }
-  cache.del("settings");
   return res.json(settings);
 }
