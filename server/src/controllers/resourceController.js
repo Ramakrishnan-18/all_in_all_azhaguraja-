@@ -30,7 +30,7 @@ export function createResourceController(
       res.json(doc);
     },
 
-    // Admin list — all items (drafts included).
+    // Admin list — all items (drafts included). No browser caching.
     listAll: async (req, res) => {
       const { search } = req.query;
       let query = {};
@@ -40,6 +40,7 @@ export function createResourceController(
         query.$or = searchable.map((f) => ({ [f]: regex }));
       }
       const docs = await model.find(query).sort({ createdAt: -1 }).lean();
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
       res.json(docs);
     },
 
