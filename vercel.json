@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://img.youtube.com https://res.cloudinary.com; font-src 'self'; frame-src https://www.youtube.com https://player.vimeo.com https://www.instagram.com; connect-src 'self' https://all-in-all-azhaguraja.onrender.com https://api.cloudinary.com https://api.emailjs.com; media-src 'self' https://res.cloudinary.com https://www.youtube.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; form-action 'self'"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://img.youtube.com https://res.cloudinary.com; font-src 'self' data:; frame-src https://www.youtube.com https://player.vimeo.com https://www.instagram.com; connect-src 'self' https://all-in-all-azhaguraja.onrender.com https://all-in-all-azhaguraja-5d9j.onrender.com https://*.onrender.com https://api.cloudinary.com https://api.emailjs.com; media-src 'self' https://res.cloudinary.com https://www.youtube.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; form-action 'self'"
         }
       ]
     }

@@ -29,7 +29,7 @@ app.use(helmet({
       scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "blob:", "https://images.unsplash.com", "https://img.youtube.com", "https://res.cloudinary.com"],
-      fontSrc: ["'self'"],
+      fontSrc: ["'self'", "data:"],
       frameSrc: ["https://www.youtube.com", "https://player.vimeo.com", "https://www.instagram.com"],
       connectSrc: ["'self'", "https://all-in-all-azhaguraja.onrender.com", "https://all-in-all-azhaguraja-5d9j.onrender.com", "https://*.onrender.com", "https://api.cloudinary.com", "https://api.emailjs.com"],
       mediaSrc: ["'self'", "https://res.cloudinary.com", "https://www.youtube.com", "https://player.vimeo.com"],
