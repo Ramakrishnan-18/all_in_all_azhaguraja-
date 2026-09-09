@@ -6,7 +6,7 @@ function getCsrfToken() {
 }
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://all-in-all-azhaguraja-5d9j.onrender.com/api",
   timeout: 15000,
   withCredentials: true,
 });
