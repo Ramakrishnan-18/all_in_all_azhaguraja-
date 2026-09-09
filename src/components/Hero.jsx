@@ -90,7 +90,7 @@ export default function Hero() {
           </Link>
           
           <WhatsAppButton
-            message="Hi Lumen & Frame, I'm interested in your services."
+            message="Hi All in All Azhaguraja, I'm interested in your services."
             variant="inline"
             className="w-full sm:w-auto font-bold text-xs tracking-wider"
             label="WhatsApp Us"

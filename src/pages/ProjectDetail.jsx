@@ -101,7 +101,7 @@ export default function ProjectDetail() {
 
           <div className="pt-6 border-t border-slate/10 flex flex-col gap-2.5">
             <WhatsAppButton
-              message={`Hi Lumen & Frame, I saw your project details for "${project.title}" and would like to enquire about pricing details.`}
+              message={`Hi All in All Azhaguraja, I saw your project details for "${project.title}" and would like to enquire about pricing details.`}
               variant="inline"
               label="WhatsApp Enquire Style"
               className="text-[10px] py-3.5 font-bold tracking-wider w-full text-center"

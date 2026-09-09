@@ -53,7 +53,7 @@ export default function AdminLayout() {
                 Studio Control
               </span>
               <span className="text-[7px] text-signal-gold font-mono tracking-widest uppercase mt-0.5 leading-none">
-                {(adminName || "Studio Admin").toUpperCase()}
+                {(adminName || "Azhaguraja S.").toUpperCase()}
               </span>
             </div>
           </NavLink>
@@ -130,7 +130,7 @@ export default function AdminLayout() {
                 Studio Control
               </span>
               <span className="text-[7px] text-signal-gold font-mono tracking-widest uppercase mt-1 leading-none">
-                {(adminName || "Studio Admin").toUpperCase()}
+                {(adminName || "Azhaguraja S.").toUpperCase()}
               </span>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function AdminLayout() {
 
         <div className="p-4 border-t border-white/10">
           <div className="text-[10px] font-mono text-paper/40 mb-3">
-            Logged in as: <strong className="text-paper/70">{adminName || "Admin"}</strong>
+            Logged in as: <strong className="text-paper/70">{adminName || "Azhaguraja"}</strong>
           </div>
           <button
             onClick={handleLogout}

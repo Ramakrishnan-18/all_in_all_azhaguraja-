@@ -9,7 +9,7 @@ import useSEO from "../hooks/useSEO";
 export default function Contact() {
   useSEO({
     title: "Contact Us | Tirunelveli Videography",
-    description: "Get in touch with Lumen & Frame. Enquire about personal reels, bike delivery videos, event coverage, or business marketing packages.",
+    description: "Get in touch with All in All Azhaguraja. Enquire about personal reels, bike delivery videos, event coverage, or business marketing packages.",
     keywords: "contact photographer Tirunelveli, book reels creator, Tirunelveli photography contact"
   });
 

@@ -27,7 +27,7 @@ export default function AdminProfile() {
   const currentId = getCurrentAdminId();
 
   // ---- My Profile state ----
-  const [name, setName] = useState(adminName || "Studio Admin");
+  const [name, setName] = useState(adminName || "Azhaguraja S.");
   const [email] = useState(getCurrentAdminEmail() || "admin@studio.com");
   const [role] = useState("Admin");
   const [currentPassword, setCurrentPassword] = useState("");

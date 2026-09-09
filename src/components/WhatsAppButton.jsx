@@ -15,11 +15,11 @@ export default function WhatsAppButton({
   let finalMessage = message;
   if (!finalMessage) {
     if (packageName && serviceName) {
-      finalMessage = `Hi Lumen & Frame, I'm interested in the ${packageName} package for ${serviceName}. Please share availability.`;
+      finalMessage = `Hi All in All Azhaguraja, I'm interested in the ${packageName} package for ${serviceName}. Please share availability.`;
     } else if (serviceName) {
-      finalMessage = `Hi Lumen & Frame, I'm interested in your ${serviceName} service. Please share details.`;
+      finalMessage = `Hi All in All Azhaguraja, I'm interested in your ${serviceName} service. Please share details.`;
     } else {
-      finalMessage = "Hi Lumen & Frame, I'm interested in booking a cinematic shoot with you!";
+      finalMessage = "Hi All in All Azhaguraja, I'm interested in booking a cinematic shoot with you!";
     }
   }
 

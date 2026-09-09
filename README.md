@@ -1,4 +1,4 @@
-# Lumen & Frame — Studio Portfolio
+# AllinAllAzhaguRaja Portfolio
 
 A premium, cinematic React frontend for a Photography, Videography & Brand Marketing studio,
 built around two equally-weighted business lines: **Weddings & Events** and **Brand Marketing**.

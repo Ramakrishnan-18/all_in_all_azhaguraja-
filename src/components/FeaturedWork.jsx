@@ -13,14 +13,8 @@ export default function FeaturedWork() {
 
   useEffect(() => {
     getPhotos()
-      .then((data) => {
-        const sorted = [...(data || [])].sort((a, b) => {
-          const ta = new Date(a.createdAt || a.date || 0).getTime();
-          const tb = new Date(b.createdAt || b.date || 0).getTime();
-          return tb - ta;
-        });
-        setPhotos(sorted);
-      })
+      .then((data) => setPhotos(data || []))
+
       .catch(() => setPhotos([]));
   }, []);
 
