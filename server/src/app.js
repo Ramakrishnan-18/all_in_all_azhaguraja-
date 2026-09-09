@@ -25,8 +25,22 @@ export const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:", "https://images.unsplash.com", "https://img.youtube.com", "https://res.cloudinary.com"],
+      fontSrc: ["'self'"],
+      frameSrc: ["https://www.youtube.com", "https://player.vimeo.com", "https://www.instagram.com"],
+      connectSrc: ["'self'", "https://all-in-all-azhaguraja.onrender.com", "https://api.cloudinary.com", "https://api.emailjs.com"],
+      mediaSrc: ["'self'", "https://res.cloudinary.com", "https://www.youtube.com", "https://player.vimeo.com"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
+    },
+  },
 }));
 app.use(compression());
 app.use(
