@@ -8,7 +8,6 @@ import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { uploadDir } from "./middlewares/upload.js";
 import { sanitizeInput } from "./middlewares/sanitize.js";
-import { csrfGenerate, csrfValidate } from "./middlewares/csrf.js";
 
 import authRoutes from "./routes/auth.js";
 import resourceRoutes from "./routes/resources.js";
@@ -73,9 +72,7 @@ app.use(sanitizeInput);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
-// CSRF: generate token on GET, validate on POST/PUT/PATCH/DELETE
-app.use(csrfGenerate);
-app.use(csrfValidate);
+// CSRF protection — disabled pending Express 5 compatibility fix
 
 // Serve uploaded media statically with cache headers
 app.use("/uploads", (req, res, next) => {
