@@ -26,7 +26,12 @@ import WhatsAppButton from "../components/WhatsAppButton";
 import { getPackages } from "../services/packagesService";
 import { getBrandMarketing } from "../services/brandMarketingService";
 import { getReels } from "../services/reelsService";
-import { studioStats } from "../services/mockData";
+const studioStats = [
+  { label: "Personal Reels Shot", value: 120, suffix: "+" },
+  { label: "Happy Clients", value: 98, suffix: "%" },
+  { label: "Car & Bike Deliveries", value: 85, suffix: "+" },
+  { label: "Tirunelveli Events Covered", value: 50, suffix: "+" },
+];
 import { useSettings } from "../context/SettingsContext";
 import useSEO from "../hooks/useSEO";
 import { InstagramIcon, YoutubeIcon } from "../components/SocialIcons";

@@ -1,5 +1,10 @@
 import PageHeader from "../components/PageHeader";
-import { studioStats } from "../services/mockData";
+const studioStats = [
+  { label: "Personal Reels Shot", value: 120, suffix: "+" },
+  { label: "Happy Clients", value: 98, suffix: "%" },
+  { label: "Car & Bike Deliveries", value: 85, suffix: "+" },
+  { label: "Tirunelveli Events Covered", value: 50, suffix: "+" },
+];
 import { Camera, Zap } from "lucide-react";
 import WhatsAppButton from "../components/WhatsAppButton";
 import useSEO from "../hooks/useSEO";
